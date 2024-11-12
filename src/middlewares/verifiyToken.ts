@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { AppError } from "../utils/appError";
-// import { User } from "../modules/user/user.model";
+import User from "../../config/schemas/user.schema";
 
 
 declare global {
@@ -9,14 +9,14 @@ declare global {
   namespace Express {
     interface Request {
       user?: {
-        userId: string;
+        userId: number
         name: string;
         email: string;
-        displayName:string
-        iat:number;
-        role:string
+        displayName: string
+        iat: number;
+        role: string
       };
-      
+
     }
   }
 }
@@ -25,12 +25,13 @@ export const verfifyToken = (
   res: Response,
   next: NextFunction
 ) => {
-  const token: any | string = req.headers?.token;
-  jwt.verify(token, process.env.JWT_KEY as string, async (err: any, decoded: any) => {
+
+  const token = req.headers?.token as string;
+  jwt.verify(token, process.env.JWT_KEY as string || "secret", async (err: any, decoded: any) => {
     if (err) return next(new AppError("inavlid token", 401));
-    // let user = await User.findById(decoded.userId);
-    // console.log(user);
-    // if (!user) return next(new AppError("user not found", 404));
+
+    let user = await User.findByPk(decoded?.userId)
+    if (!user) return next(new AppError("user not found", 404));
 
     req.user = decoded;
 

@@ -1,20 +1,21 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "../dbConnection";
-
-const Appointment = sequelize.define("Appointment", {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const sequelize_1 = require("sequelize");
+const dbConnection_1 = require("../dbConnection");
+const Appointment = dbConnection_1.sequelize.define("Appointment", {
     department: {
-        type: DataTypes.STRING(30),
+        type: sequelize_1.DataTypes.STRING(30),
         allowNull: false,
     },
     date: {
-        type: DataTypes.DATE,
+        type: sequelize_1.DataTypes.DATE,
         allowNull: false,
         validate: {
             isDate: true,
         }
     },
     Doctor_id: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: true,
         references: {
             model: 'User',
@@ -24,7 +25,7 @@ const Appointment = sequelize.define("Appointment", {
         onDelete: 'SET NULL'
     },
     patient_id: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
         references: {
             model: 'Patient',
@@ -34,7 +35,7 @@ const Appointment = sequelize.define("Appointment", {
         onDelete: 'SET NULL'
     },
     staff_id: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
         references: {
             model: 'User',
@@ -44,7 +45,7 @@ const Appointment = sequelize.define("Appointment", {
         onDelete: 'SET NULL'
     },
     room_id: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: true,
         references: {
             model: "Room",

@@ -15,15 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.verfifyToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const appError_1 = require("../utils/appError");
+const user_schema_1 = __importDefault(require("../../config/schemas/user.schema"));
 const verfifyToken = (req, res, next) => {
     var _a;
     const token = (_a = req.headers) === null || _a === void 0 ? void 0 : _a.token;
-    jsonwebtoken_1.default.verify(token, process.env.JWT_KEY, (err, decoded) => __awaiter(void 0, void 0, void 0, function* () {
+    jsonwebtoken_1.default.verify(token, process.env.JWT_KEY || "secret", (err, decoded) => __awaiter(void 0, void 0, void 0, function* () {
         if (err)
             return next(new appError_1.AppError("inavlid token", 401));
-        // let user = await User.findById(decoded.userId);
-        // console.log(user);
-        // if (!user) return next(new AppError("user not found", 404));
+        let user = yield user_schema_1.default.findByPk(decoded === null || decoded === void 0 ? void 0 : decoded.userId);
+        if (!user)
+            return next(new appError_1.AppError("user not found", 404));
         req.user = decoded;
         next();
     }));
