@@ -1,6 +1,6 @@
-export interface Room {
+export interface IRoom {
     id: number;              
-    availability: number;   
+    availability: boolean;   
     capacity: number;        
     department: string;  
 }

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import User from "../../../config/schemas/user.schema";
 import { AppError } from "../../utils/appError";
-import { where } from "sequelize";
+
 // get all users
 const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     let users = await User.findAll()
