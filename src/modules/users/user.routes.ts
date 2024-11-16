@@ -14,6 +14,7 @@ userRouter
     // only admins and managers can accessthis endpoint
     .get("/", uc.getAllUsers)
     .route("/:id")
+    .put(uc.restoreUser)
     .get(uc.getUser)
     .patch(uc.updateUser)
     .delete(uc.deleteUser)

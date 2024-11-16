@@ -1,13 +1,36 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../dbConnection";
+import { IInventory } from "../../src/modules/inventory/inventory.INTF";
+interface InventoryCreationAttributes extends Optional<IInventory, "id"> { }
 
-export const Inventory = sequelize.define("Inventory", {
+class Inventory extends Model<IInventory, InventoryCreationAttributes> implements IInventory {
+    public id!: number;
+    public item_name!: string;
+    public category!: string;
+    public quantity!: number;
+    public Supplier_SSN!: number;
+    public handled_by!: number;
+
+    // Timestamps
+    public readonly createdAt!: Date;
+    public readonly updatedAt!: Date;
+    public readonly deletedAt!: Date | null;
+
+
+}
+
+Inventory.init({
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
     item_name: {
         type: DataTypes.STRING(4),
         allowNull: false,
         validate: {
             len: [2, 20], // Ensures item_name is between 2 and 4 characters
-        }
+        },
     },
     category: {
         type: DataTypes.STRING(45),
@@ -19,13 +42,11 @@ export const Inventory = sequelize.define("Inventory", {
     quantity: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        validate: {
-            min: 0, // Ensures quantity cannot be negative
-        }
     },
     Supplier_SSN: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: "no department"
     },
     handled_by: {
         type: DataTypes.INTEGER,
@@ -36,5 +57,15 @@ export const Inventory = sequelize.define("Inventory", {
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
-    }
-});
+    },
+
+},
+    {
+        paranoid: true,
+        sequelize,
+        modelName: 'Inventory',
+        timestamps: true,
+    },
+
+)
+export default Inventory

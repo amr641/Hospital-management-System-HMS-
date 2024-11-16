@@ -53,16 +53,16 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     // sign a token
     let token = jsonwebtoken_1.default.sign({ userId: user.id, name: user.name, email: user.email, role: user.role }, process.env.JWT_KEY || "secret");
     res
-        .status(201)
+        .status(200)
         .json({ message: `welcome back ${user.name}`, token });
 });
 exports.login = login;
 // authorization function 🛑🤚
 const allowedTo = function (...roles) {
     return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-        var _a, _b;
-        console.log((roles.includes((_a = req.user) === null || _a === void 0 ? void 0 : _a.role)));
-        if (!roles.includes((_b = req.user) === null || _b === void 0 ? void 0 : _b.role))
+        var _a;
+        console.log(req.user);
+        if (!roles.includes((_a = req.user) === null || _a === void 0 ? void 0 : _a.role))
             throw new appError_1.AppError('you are not authorized', 401);
         next();
     });

@@ -23,22 +23,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userRouter = void 0;
+exports.roomRouter = void 0;
 const express_1 = require("express");
-const auth_1 = require("../../middlewares/auth");
-const uc = __importStar(require("./user.controller"));
+const rc = __importStar(require("./room.controller"));
 const verifiyToken_1 = require("../../middlewares/verifiyToken");
-const Roles_ENUMS_1 = require("./Roles.ENUMS");
-exports.userRouter = (0, express_1.Router)();
-// user signs up
-exports.userRouter
-    .post('/signUp', auth_1.signUp)
-    .post("/logIn", auth_1.login)
-    .use(verifiyToken_1.verfifyToken, (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.ADMIN, Roles_ENUMS_1.Roles.MANAGER))
-    // only admins and managers can accessthis endpoint
-    .get("/", uc.getAllUsers)
+const auth_1 = require("../../middlewares/auth");
+const Roles_ENUMS_1 = require("../users/Roles.ENUMS");
+exports.roomRouter = (0, express_1.Router)();
+exports.roomRouter
+    .use(verifiyToken_1.verfifyToken, (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF))
+    .post("/", rc.addRoom)
+    .get("/", rc.getAllRooms)
     .route("/:id")
-    .put(uc.restoreUser)
-    .get(uc.getUser)
-    .patch(uc.updateUser)
-    .delete(uc.deleteUser);
+    .get(rc.getRoom)
+    .put(rc.restoreRoom)
+    .patch(rc.updateRoom)
+    .delete(rc.deleteRoom);

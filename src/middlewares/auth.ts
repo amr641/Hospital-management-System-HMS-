@@ -51,7 +51,7 @@ const login =
       process.env.JWT_KEY as string || "secret"
     );
     res
-      .status(201)
+      .status(200)
       .json({ message: `welcome back ${user.name}`, token });
   }
 
@@ -59,8 +59,11 @@ const login =
 const allowedTo = function (...roles: string[]) {
 
   return async (req: Request, res: Response, next: NextFunction) => {
-    console.log((roles.includes(req.user?.role as string)));
-    
+  
+
+console.log(req.user);
+
+
     if (!roles.includes(req.user?.role as string))
       throw new AppError('you are not authorized', 401)
     next()

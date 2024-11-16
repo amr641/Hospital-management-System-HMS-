@@ -1,9 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Room = void 0;
 const sequelize_1 = require("sequelize");
 const dbConnection_1 = require("../dbConnection");
-exports.Room = dbConnection_1.sequelize.define("Room", {
+class Room extends sequelize_1.Model {
+}
+Room.init({
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
     availability: {
         type: sequelize_1.DataTypes.TINYINT,
         allowNull: false,
@@ -20,10 +26,14 @@ exports.Room = dbConnection_1.sequelize.define("Room", {
         }
     },
     department: {
-        type: sequelize_1.DataTypes.STRING(4),
+        type: sequelize_1.DataTypes.STRING(30),
         allowNull: false,
-        validate: {
-            len: [2, 4] // Ensures department code is between 2 and 4 characters
-        }
+        defaultValue: "no department"
     },
+}, {
+    paranoid: true,
+    sequelize: dbConnection_1.sequelize,
+    modelName: 'Room',
+    timestamps: true,
 });
+exports.default = Room;

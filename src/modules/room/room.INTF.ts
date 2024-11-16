@@ -1,6 +1,10 @@
 export interface IRoom {
-    id: number;              
-    availability: boolean;   
-    capacity: number;        
-    department: string;  
+    [x: string]: any;
+    id: number;
+    availability: boolean;
+    capacity: number;
+    department: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+    deletedAt?: Date | null;
 }

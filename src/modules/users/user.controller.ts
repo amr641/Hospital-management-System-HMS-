@@ -26,9 +26,16 @@ const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     if (!user) throw new AppError("user not found", 404)
     res.status(200).json({ message: "success" })
 }
+const restoreUser = async (req: Request, res: Response, next: NextFunction) => {
+    let user = await User.findByPk(req.params.id, { paranoid: false })
+    if (!user) throw new AppError("user not found", 404)
+    await User.restore({ where: { id: req.params.id } })
+    res.status(200).json({ message: `user with id ${user.id} restored successfully` })
+}
 export {
     getAllUsers,
     getUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    restoreUser
 }

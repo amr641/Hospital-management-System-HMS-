@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.updateUser = exports.getUser = exports.getAllUsers = void 0;
+exports.restoreUser = exports.deleteUser = exports.updateUser = exports.getUser = exports.getAllUsers = void 0;
 const user_schema_1 = __importDefault(require("../../../config/schemas/user.schema"));
 const appError_1 = require("../../utils/appError");
 // get all users
@@ -47,3 +47,11 @@ const deleteUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     res.status(200).json({ message: "success" });
 });
 exports.deleteUser = deleteUser;
+const restoreUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    let user = yield user_schema_1.default.findByPk(req.params.id, { paranoid: false });
+    if (!user)
+        throw new appError_1.AppError("user not found", 404);
+    yield user_schema_1.default.restore({ where: { id: req.params.id } });
+    res.status(200).json({ message: `user with id ${user.id} restored successfully` });
+});
+exports.restoreUser = restoreUser;
