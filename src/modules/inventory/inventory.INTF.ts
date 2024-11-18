@@ -5,4 +5,7 @@ export interface IInventory {
     quantity: number;       
     Supplier_SSN: number;    
     handled_by: number;      
+    createdAt?: Date;
+    updatedAt?: Date;
+    deletedAt?: Date | null;
 }

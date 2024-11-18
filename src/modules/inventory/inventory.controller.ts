@@ -5,7 +5,7 @@ import { IInventory } from "./inventory.INTF";
 
 
 const addItem = async (req: Request, res: Response): Promise<void> => {
-    req.body.handled_by= req.user?.SSN
+    req.body.handled_by = req.user?.SSN
     let item: IInventory = await Inventory.create(req.body)
     res.status(201).json({ messsage: "success", item })
 }
@@ -15,11 +15,11 @@ const getAllItems = async (req: Request, res: Response): Promise<void> => {
     res.status(201).json({ messsage: "success", items })
 }
 const getItem = async (req: Request, res: Response): Promise<void> => {
-    let item = await Inventory.findByPk(req.params.id)
+    let item: IInventory | null = await Inventory.findByPk(req.params.id)
     if (!item) throw new AppError("item not found", 404)
     res.status(200).json({ message: "success", item })
 }
-const updateItem = async (req: Request<{ id: number }>, res: Response): Promise<void> => {
+const updateItem = async (req: Request, res: Response): Promise<void> => {
     let { id } = req.params
     const [affectedRows, [updatedItem]] = await Inventory.update(req.body, {
         where: { id },
@@ -30,7 +30,7 @@ const updateItem = async (req: Request<{ id: number }>, res: Response): Promise<
 }
 const deleteItem = async (req: Request, res: Response): Promise<void> => {
     // find the item
-    const item = await Inventory.findByPk(req.params.id)
+    const item: IInventory | null = await Inventory.findByPk(req.params.id)
     if (!item) throw new AppError("item not found", 404)
     // destoy it
     await Inventory.destroy({ where: { id: item.id } })
