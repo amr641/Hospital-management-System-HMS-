@@ -3,15 +3,18 @@ import * as rc from "./room.controller"
 import { verfifyToken } from "../../middlewares/verifiyToken";
 import { allowedTo } from "../../middlewares/auth";
 import { Roles } from "../users/Roles.ENUMS";
+import validateRequest from "../../middlewares/validateRequest"
+import * as rv from "./room.validator"
+import { onlyIdNeededValidation } from "../users/user.validator";
 
 export const roomRouter = Router()
 roomRouter
     .use(verfifyToken, allowedTo(Roles.STAFF))
-    .post("/", rc.addRoom)
+    .post("/", validateRequest(rv.addRoomValidation), rc.addRoom)
     .get("/", rc.getAllRooms)
     .route("/:id")
-   
-    .get(rc.getRoom)
-    .put(rc.restoreRoom)
-    .patch(rc.updateRoom)
-    .delete(rc.deleteRoom)
+
+    .get(validateRequest(onlyIdNeededValidation), rc.getRoom)
+    .put(validateRequest(onlyIdNeededValidation), rc.restoreRoom)
+    .patch(validateRequest(rv.updateRoomValidation), rc.updateRoom)
+    .delete(validateRequest(onlyIdNeededValidation), rc.deleteRoom)
