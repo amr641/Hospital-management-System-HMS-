@@ -22,6 +22,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userRouter = void 0;
 const express_1 = require("express");
@@ -29,16 +32,18 @@ const auth_1 = require("../../middlewares/auth");
 const uc = __importStar(require("./user.controller"));
 const verifiyToken_1 = require("../../middlewares/verifiyToken");
 const Roles_ENUMS_1 = require("./Roles.ENUMS");
+const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const uv = __importStar(require("./user.validator"));
 exports.userRouter = (0, express_1.Router)();
 // user signs up
 exports.userRouter
-    .post('/signUp', auth_1.signUp)
-    .post("/logIn", auth_1.login)
+    .post('/signUp', (0, validateRequest_1.default)(uv.signUpValidation), auth_1.signUp)
+    .post("/logIn", (0, validateRequest_1.default)(uv.loginValidation), auth_1.login)
     .use(verifiyToken_1.verfifyToken, (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.ADMIN, Roles_ENUMS_1.Roles.MANAGER))
-    // only admins and managers can accessthis endpoint
+    // only admins and managers can access these endpoints
     .get("/", uc.getAllUsers)
     .route("/:id")
-    .put(uc.restoreUser)
-    .get(uc.getUser)
-    .patch(uc.updateUser)
-    .delete(uc.deleteUser);
+    .put((0, validateRequest_1.default)(uv.onlyIdNeededValidation), uc.restoreUser)
+    .get((0, validateRequest_1.default)(uv.onlyIdNeededValidation), uc.getUser)
+    .patch((0, validateRequest_1.default)(uv.updateUserValidation), uc.updateUser)
+    .delete((0, validateRequest_1.default)(uv.onlyIdNeededValidation), uc.deleteUser);
