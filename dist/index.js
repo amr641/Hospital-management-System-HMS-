@@ -10,4 +10,4 @@ const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 dbConnection_1.sequelize.sync();
 (0, bootstrab_1.bootstrab)(app);
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`server listening on port ${port}!`));

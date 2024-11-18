@@ -28,6 +28,7 @@ class User extends Model<IUser, UserCreationAttributes> implements IUser {
 
 User.init(
     {
+       
         name: {
             type: DataTypes.STRING(100),
             allowNull: false,

@@ -1,9 +1,9 @@
 import express from 'express'
-import {sequelize} from './config/dbConnection'
+import { sequelize } from './config/dbConnection'
 import { bootstrab } from './src/modules/bootstrab'
 const app = express()
-const port = process.env.PORT||3000
+const port = process.env.PORT || 3000
 
 sequelize.sync()
 bootstrab(app)
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`server listening on port ${port}!`))

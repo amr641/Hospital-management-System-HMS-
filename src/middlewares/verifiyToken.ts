@@ -12,9 +12,9 @@ declare global {
         userId: number
         name: string;
         email: string;
-        displayName: string
         iat: number;
-        role: string
+        role: string;
+        SSN:number
       };
 
     }

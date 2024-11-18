@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bootstrab = bootstrab;
 const globalHandeling_1 = require("../middlewares/globalHandeling");
+const ineventory_routes_1 = require("./inventory/ineventory.routes");
 const room_routes_1 = require("./room/room.routes");
 const user_routes_1 = require("./users/user.routes");
 const express_1 = __importDefault(require("express"));
@@ -16,6 +17,7 @@ function bootstrab(app) {
     app.use(express_1.default.json());
     app.use(`${baseUrl}/users`, user_routes_1.userRouter);
     app.use(`${baseUrl}/rooms`, room_routes_1.roomRouter);
+    app.use(`${baseUrl}/inventories`, ineventory_routes_1.inventoryRouter);
     // global err handeling midlleware
     app.use(globalHandeling_1.globalHandeling);
     process.on("unhandledRejection", (err) => {

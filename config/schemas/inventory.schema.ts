@@ -33,10 +33,10 @@ Inventory.init({
         },
     },
     category: {
-        type: DataTypes.STRING(45),
+        type: DataTypes.STRING(100),
         allowNull: false,
         validate: {
-            len: [2, 45], // Ensures category is between 2 and 45 characters
+            len: [2, 50], // Ensures category is between 2 and 45 characters
         }
     },
     quantity: {
@@ -46,18 +46,11 @@ Inventory.init({
     Supplier_SSN: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: "no department"
     },
     handled_by: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: 'User', // Assumes 'Staff' table exists
-            key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
-    },
+      },
 
 },
     {
