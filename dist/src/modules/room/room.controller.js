@@ -59,8 +59,8 @@ exports.getAllRooms = getAllRooms;
 const restoreRoom = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     let room = yield room_schema_1.default.findByPk(req.params.id, { paranoid: false });
     if (!room)
-        throw new appError_1.AppError("user not found", 404);
+        throw new appError_1.AppError("patient not found", 404);
     yield room.restore();
-    res.status(200).json({ message: `user with id ${room.id} restored successfully` });
+    res.status(200).json({ message: `room with id ${room.id} restored successfully` });
 });
 exports.restoreRoom = restoreRoom;

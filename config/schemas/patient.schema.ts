@@ -53,7 +53,7 @@ Patient.init({
     email: {
         type: DataTypes.STRING,
         allowNull: true,
-        unique: true,
+        unique:false,
         validate: {
             isEmail: true, // Ensures valid email format
         }
@@ -64,7 +64,7 @@ Patient.init({
     modelName: 'Patient',
     timestamps: true,
     paranoid: true,
-    indexes: [{ fields: [' phone_Number'], unique: true }]
+    indexes: [{ fields: ['phone_Number']}]
 
 }
 )

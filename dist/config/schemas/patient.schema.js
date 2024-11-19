@@ -1,9 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Patient = void 0;
-const sequelize_1 = require("sequelize");
 const dbConnection_1 = require("../dbConnection");
-exports.Patient = dbConnection_1.sequelize.define("Patient", {
+const sequelize_1 = require("sequelize");
+class Patient extends sequelize_1.Model {
+}
+exports.Patient = Patient;
+Patient.init({
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
     name: {
         type: sequelize_1.DataTypes.STRING(100),
         allowNull: false,
@@ -35,9 +43,15 @@ exports.Patient = dbConnection_1.sequelize.define("Patient", {
     email: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
-        unique: true,
+        unique: false,
         validate: {
             isEmail: true, // Ensures valid email format
         }
-    }
+    },
+}, {
+    sequelize: dbConnection_1.sequelize,
+    modelName: 'Patient',
+    timestamps: true,
+    paranoid: true,
+    indexes: [{ fields: ['phone_Number'] }]
 });
