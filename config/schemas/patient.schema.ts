@@ -1,6 +1,27 @@
-import { DataTypes } from "sequelize";
 import { sequelize } from "../dbConnection";
-export const Patient = sequelize.define("Patient", {
+import { DataTypes, Model, Optional } from "sequelize";
+interface patientCreationAttributes extends Optional<IPatient, "id"> { }
+export class Patient extends Model<IPatient, patientCreationAttributes> implements IPatient {
+    public id!: number;
+    public name!: string;
+    public email!: string;
+    public phone_Number!: string;
+    public gender!: string;
+    public DOB!: Date;
+
+    public readonly createdAt!: Date;
+    public readonly updatedAt!: Date;
+    public readonly deletedAt!: Date | null;
+
+
+}
+
+Patient.init({
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
     name: {
         type: DataTypes.STRING(100),
         allowNull: false,
@@ -37,4 +58,13 @@ export const Patient = sequelize.define("Patient", {
             isEmail: true, // Ensures valid email format
         }
     }
-});
+
+}, {
+    sequelize,
+    modelName: 'Patient',
+    timestamps: true,
+    paranoid: true,
+
+}
+)
+

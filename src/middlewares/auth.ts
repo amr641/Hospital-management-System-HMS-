@@ -27,7 +27,7 @@ const signUp =
         name: user.name,
         email: user.email,
         role: user.role,
-        SSN:user.SSN
+        SSN: user.SSN
       },
       process.env.JWT_KEY as string || "secret",
       { expiresIn: "1h" }
@@ -58,14 +58,9 @@ const login =
       .json({ message: `welcome back ${user.name}`, token });
   }
 
-// authorization function 🛑🤚
+// authorization function 🛑🤚 (execuse me who are you ?!)
 const allowedTo = function (...roles: string[]) {
-
   return async (req: Request, res: Response, next: NextFunction) => {
-
-
-    console.log(req.user);
-
 
     if (!roles.includes(req.user?.role as string))
       throw new AppError('you are not authorized', 401)

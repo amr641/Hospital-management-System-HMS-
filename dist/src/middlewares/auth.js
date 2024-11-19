@@ -59,11 +59,10 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         .json({ message: `welcome back ${user.name}`, token });
 });
 exports.login = login;
-// authorization function 🛑🤚
+// authorization function 🛑🤚 (execuse me who are you ?!)
 const allowedTo = function (...roles) {
     return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         var _a;
-        console.log(req.user);
         if (!roles.includes((_a = req.user) === null || _a === void 0 ? void 0 : _a.role))
             throw new appError_1.AppError('you are not authorized', 401);
         next();

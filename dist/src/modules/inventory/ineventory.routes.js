@@ -22,6 +22,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.inventoryRouter = void 0;
 const express_1 = require("express");
@@ -29,11 +32,14 @@ const verifiyToken_1 = require("../../middlewares/verifiyToken");
 const auth_1 = require("../../middlewares/auth");
 const Roles_ENUMS_1 = require("../users/Roles.ENUMS");
 const ic = __importStar(require("./inventory.controller"));
+const iv = __importStar(require("./inventory.validator"));
+const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const user_validator_1 = require("../users/user.validator");
 exports.inventoryRouter = (0, express_1.Router)();
 exports.inventoryRouter
     .use(verifiyToken_1.verfifyToken, (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF))
-    .post("/", ic.addItem)
+    .post("/", (0, validateRequest_1.default)(iv.addItemValidation), ic.addItem)
     .get("/", ic.getAllItems)
-    .get("/:id", ic.getItem)
-    .patch("/:id", ic.updateItem)
-    .delete("/:id", ic.deleteItem);
+    .get("/:id", (0, validateRequest_1.default)(user_validator_1.onlyIdNeededValidation), ic.getItem)
+    .patch("/:id", (0, validateRequest_1.default)(iv.updateItemValidation), ic.updateItem)
+    .delete("/:id", (0, validateRequest_1.default)(user_validator_1.onlyIdNeededValidation), ic.deleteItem);
