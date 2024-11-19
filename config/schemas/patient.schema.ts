@@ -57,13 +57,14 @@ Patient.init({
         validate: {
             isEmail: true, // Ensures valid email format
         }
-    }
+    },
 
 }, {
     sequelize,
     modelName: 'Patient',
     timestamps: true,
     paranoid: true,
+    indexes: [{ fields: [' phone_Number'], unique: true }]
 
 }
 )

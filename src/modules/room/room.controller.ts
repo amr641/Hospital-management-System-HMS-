@@ -40,9 +40,9 @@ const getAllRooms = async (req: Request, res: Response, next: NextFunction): Pro
 }
 const restoreRoom = async (req: Request, res: Response, next: NextFunction) => {
     let room = await Room.findByPk(req.params.id, { paranoid: false })
-    if (!room) throw new AppError("user not found", 404)
+    if (!room) throw new AppError("patient not found", 404)
     await room.restore()
-    res.status(200).json({ message: `user with id ${room.id} restored successfully` })
+    res.status(200).json({ message: `room with id ${room.id} restored successfully` })
 }
 export {
     addRoom,
