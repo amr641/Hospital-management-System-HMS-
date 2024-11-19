@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.restorePatient = exports.deletePatient = exports.updatePatient = exports.getPatient = exports.getAllPatients = exports.addPatient = void 0;
 const patient_schema_1 = require("../../../config/schemas/patient.schema");
 const appError_1 = require("../../utils/appError");
-const addPatient = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const addPatient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let patient = yield patient_schema_1.Patient.findOne({ where: { phone_Number: req.body.phone_Number } });
     if (patient) {
         throw new appError_1.AppError("This patient already exists in the system.", 409);
@@ -21,7 +21,7 @@ const addPatient = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     res.status(201).json({ message: "success" });
 });
 exports.addPatient = addPatient;
-const getAllPatients = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllPatients = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let patients = yield patient_schema_1.Patient.findAll();
     if (!patients.length) {
         throw new appError_1.AppError("The System Is Out Of Patients", 404);
@@ -29,14 +29,14 @@ const getAllPatients = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     res.status(201).json({ message: "success", patients });
 });
 exports.getAllPatients = getAllPatients;
-const getPatient = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getPatient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let patient = yield patient_schema_1.Patient.findByPk(req.params.id);
     if (!patient)
         throw new appError_1.AppError("Patient Not Found", 404);
     res.status(200).json({ message: "success", patient });
 });
 exports.getPatient = getPatient;
-const updatePatient = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const updatePatient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     let patient = yield patient_schema_1.Patient.findByPk(id);
     if (!patient)
@@ -55,7 +55,7 @@ const deletePatient = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     res.status(200).json({ message: "success", patient });
 });
 exports.deletePatient = deletePatient;
-const restorePatient = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const restorePatient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let patient = yield patient_schema_1.Patient.findByPk(req.params.id, { paranoid: false });
     if (!patient)
         throw new appError_1.AppError("patient not found", 404);

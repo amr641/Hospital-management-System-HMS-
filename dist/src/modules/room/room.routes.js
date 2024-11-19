@@ -37,7 +37,7 @@ const rv = __importStar(require("./room.validator"));
 const user_validator_1 = require("../users/user.validator");
 exports.roomRouter = (0, express_1.Router)();
 exports.roomRouter
-    .use(verifiyToken_1.verfifyToken, (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF))
+    .use(verifiyToken_1.verifyToken, (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF))
     .post("/", (0, validateRequest_1.default)(rv.addRoomValidation), rc.addRoom)
     .get("/", rc.getAllRooms)
     .route("/:id")

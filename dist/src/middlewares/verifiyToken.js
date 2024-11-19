@@ -12,21 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verfifyToken = void 0;
+exports.verifyToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const appError_1 = require("../utils/appError");
 const user_schema_1 = __importDefault(require("../../config/schemas/user.schema"));
-const verfifyToken = (req, res, next) => {
+const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const token = (_a = req.headers) === null || _a === void 0 ? void 0 : _a.token;
-    jsonwebtoken_1.default.verify(token, process.env.JWT_KEY || "secret", (err, decoded) => __awaiter(void 0, void 0, void 0, function* () {
-        if (err)
-            return next(new appError_1.AppError("inavlid token", 401));
-        let user = yield user_schema_1.default.findByPk(decoded === null || decoded === void 0 ? void 0 : decoded.userId);
-        if (!user)
-            return next(new appError_1.AppError("user not found", 404));
-        req.user = decoded;
-        next();
-    }));
-};
-exports.verfifyToken = verfifyToken;
+    if (!token) {
+        return next(new appError_1.AppError('No token provided', 401));
+    }
+    const decoded = yield new Promise((resolve, reject) => {
+        jsonwebtoken_1.default.verify(token, process.env.JWT_KEY || 'secret', (err, decoded) => {
+            if (err) {
+                reject(new appError_1.AppError('Invalid token', 401));
+            }
+            resolve(decoded);
+        });
+    });
+    const user = yield user_schema_1.default.findByPk(decoded.userId);
+    if (!user) {
+        return next(new appError_1.AppError('User not found', 404));
+    }
+    req.user = decoded;
+    next();
+});
+exports.verifyToken = verifyToken;

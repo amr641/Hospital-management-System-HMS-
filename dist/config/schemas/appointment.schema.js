@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const dbConnection_1 = require("../dbConnection");
+O;
 const Appointment = dbConnection_1.sequelize.define("Appointment", {
     department: {
         type: sequelize_1.DataTypes.STRING(30),

@@ -22,6 +22,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.patientRouter = void 0;
 const express_1 = require("express");
@@ -29,13 +32,16 @@ const verifiyToken_1 = require("../../middlewares/verifiyToken");
 const auth_1 = require("../../middlewares/auth");
 const Roles_ENUMS_1 = require("../users/Roles.ENUMS");
 const pc = __importStar(require("./patient.controller"));
+const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const pv = __importStar(require("./patient.validator"));
+const user_validator_1 = require("../users/user.validator");
 exports.patientRouter = (0, express_1.Router)();
 exports.patientRouter
-    .use(verifiyToken_1.verfifyToken, (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF))
-    .post("/", pc.addPatient)
+    .use(verifiyToken_1.verifyToken, (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF))
+    .post("/", (0, validateRequest_1.default)(pv.addPatientValidation), pc.addPatient)
     .get("/", pc.getAllPatients)
     .route("/:id")
-    .get(pc.getPatient)
-    .patch(pc.updatePatient)
-    .delete(pc.deletePatient)
-    .put(pc.restorePatient);
+    .get((0, validateRequest_1.default)(user_validator_1.onlyIdNeededValidation), pc.getPatient)
+    .patch((0, validateRequest_1.default)(pv.updatePatientValidation), pc.updatePatient)
+    .delete((0, validateRequest_1.default)(user_validator_1.onlyIdNeededValidation), pc.deletePatient)
+    .put((0, validateRequest_1.default)(user_validator_1.onlyIdNeededValidation), pc.restorePatient);

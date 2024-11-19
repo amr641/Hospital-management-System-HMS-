@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { verfifyToken } from "../../middlewares/verifiyToken";
+import { verifyToken } from "../../middlewares/verifiyToken";
 import { allowedTo } from "../../middlewares/auth";
 import { Roles } from "../users/Roles.ENUMS";
 import * as pc from "./patient.controller";
@@ -9,7 +9,7 @@ import { onlyIdNeededValidation } from "../users/user.validator";
 
 export const patientRouter = Router()
 patientRouter
-    .use(verfifyToken, allowedTo(Roles.STAFF))
+    .use(verifyToken, allowedTo(Roles.STAFF))
     .post("/", validateRequest(pv.addPatientValidation), pc.addPatient)
 
     .get("/", pc.getAllPatients)

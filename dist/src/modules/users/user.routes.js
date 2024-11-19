@@ -39,7 +39,7 @@ exports.userRouter = (0, express_1.Router)();
 exports.userRouter
     .post('/signUp', (0, validateRequest_1.default)(uv.signUpValidation), auth_1.signUp)
     .post("/logIn", (0, validateRequest_1.default)(uv.loginValidation), auth_1.login)
-    .use(verifiyToken_1.verfifyToken, (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.ADMIN, Roles_ENUMS_1.Roles.MANAGER))
+    .use(verifiyToken_1.verifyToken, (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.ADMIN, Roles_ENUMS_1.Roles.MANAGER))
     // only admins and managers can access these endpoints
     .get("/", uc.getAllUsers)
     .route("/:id")

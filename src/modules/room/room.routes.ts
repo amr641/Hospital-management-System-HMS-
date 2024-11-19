@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as rc from "./room.controller"
-import { verfifyToken } from "../../middlewares/verifiyToken";
+import { verifyToken } from "../../middlewares/verifiyToken";
 import { allowedTo } from "../../middlewares/auth";
 import { Roles } from "../users/Roles.ENUMS";
 import validateRequest from "../../middlewares/validateRequest"
@@ -9,7 +9,7 @@ import { onlyIdNeededValidation } from "../users/user.validator";
 
 export const roomRouter = Router()
 roomRouter
-    .use(verfifyToken, allowedTo(Roles.STAFF))
+    .use(verifyToken, allowedTo(Roles.STAFF))
     .post("/", validateRequest(rv.addRoomValidation), rc.addRoom)
     .get("/", rc.getAllRooms)
     .route("/:id")
