@@ -15,6 +15,9 @@ const checkRoomExistence = async (req: Request, res: Response, next: NextFunctio
     if (!room) throw new AppError("room Not Found", 404)
     if (room.department !== req.body.department) throw new AppError("Department mismatch. Please verify the room and department.", 400)
     if (!room.availability) throw new AppError("room is not available", 400)
+        // change the room  availabilty 
+    room.availability = 0
+    await room.save()
     next()
 }
 export {

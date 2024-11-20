@@ -1,7 +1,33 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../dbConnection";
+import { IReport } from "../../src/modules/report/report.INTF";
+import { Patient } from "./patient.schema";
+import { Appointment } from "./appointment.schema";
 
-export const Report = sequelize.define("Report", {
+
+interface ReportCreationAttributes extends Optional<IReport, "id"> { }
+export class Report extends Model<IReport, ReportCreationAttributes> implements IReport {
+
+    public id!: number;
+    public result!: string;
+    public patient_id!: number;
+    public appointment_id!: number;
+
+
+    public readonly createdAt!: Date;
+    public readonly updatedAt!: Date;
+    public readonly deletedAt!: Date | null;
+}
+
+
+
+
+Report.init({
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
     result: {
         type: DataTypes.STRING(45),
         allowNull: false,
@@ -9,24 +35,30 @@ export const Report = sequelize.define("Report", {
             len: [1, 45]
         }
     },
-    patient_id1: {
+    patient_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: 'Patient', 
-            key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+        references: { model: Patient, key: 'id' },
+        onDelete: 'SET NULL',
     },
     appointment_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: 'Appointment', 
-            key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+        references: { model: Appointment, key: 'id' },
+        onDelete: 'SET NULL',
     }
-});
+
+
+}
+    , {
+        sequelize,
+        modelName: "Report",
+        paranoid: true,
+        timestamps: true
+    })
+
+Patient.hasMany(Report, { foreignKey: 'patient_id', onDelete: 'SET NULL' });
+Report.belongsTo(Patient, { foreignKey: 'patient_id', onDelete: 'SET NULL' });
+
+Appointment.hasMany(Report, { foreignKey: 'appointment_id', onDelete: 'SET NULL' });
+Report.belongsTo(Appointment, { foreignKey: 'appointment_id', onDelete: 'SET NULL' });

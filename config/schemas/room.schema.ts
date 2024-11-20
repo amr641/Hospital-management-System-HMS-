@@ -9,7 +9,7 @@ interface RoomCreationAttributes extends Optional<IRoom, "id" | 'department'> { 
 
 class Room extends Model<IRoom, RoomCreationAttributes> implements IRoom {
     public id!: number;
-    public availability!: boolean;
+    public availability!: number;
     public capacity!: number;
     public department!: string;
 

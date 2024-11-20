@@ -31,6 +31,9 @@ const checkRoomExistence = (req, res, next) => __awaiter(void 0, void 0, void 0,
         throw new appError_1.AppError("Department mismatch. Please verify the room and department.", 400);
     if (!room.availability)
         throw new appError_1.AppError("room is not available", 400);
+    // change the room  availabilty 
+    room.availability = 0;
+    yield room.save();
     next();
 });
 exports.checkRoomExistence = checkRoomExistence;

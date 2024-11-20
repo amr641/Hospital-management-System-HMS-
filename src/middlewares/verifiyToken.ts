@@ -9,7 +9,7 @@ declare global {
   namespace Express {
     interface Request {
       user?: {
-        department: WhereAttributeHashValue<string>;
+        department:string;
         userId: number
         name: string;
         email: string;
@@ -28,6 +28,7 @@ type DecodedToken = {
   iat: number;
   role: string;
   SSN: number;
+  department:string
 };
 
 export const verifyToken = async (

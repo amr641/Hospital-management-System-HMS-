@@ -22,6 +22,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.appointmentRouter = void 0;
 const express_1 = require("express");
@@ -30,14 +33,19 @@ const auth_1 = require("../../middlewares/auth");
 const Roles_ENUMS_1 = require("../users/Roles.ENUMS");
 const checkExistence_1 = require("../../middlewares/checkExistence");
 const ac = __importStar(require("./appointment.controller"));
+const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const av = __importStar(require("./appointments.validator"));
+const user_validator_1 = require("../users/user.validator");
 exports.appointmentRouter = (0, express_1.Router)();
 exports.appointmentRouter
     .use(verifiyToken_1.verifyToken)
     // add appointment
-    .post("/", (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF, Roles_ENUMS_1.Roles.MANAGER), checkExistence_1.checkPatientExistence, checkExistence_1.checkRoomExistence, ac.addAppointmnet)
+    .post("/", (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF, Roles_ENUMS_1.Roles.MANAGER), (0, validateRequest_1.default)(av.addAppointmentValidation), checkExistence_1.checkPatientExistence, checkExistence_1.checkRoomExistence, ac.addAppointmnet)
+    // get all appointments based on role
     .get('/', (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF, Roles_ENUMS_1.Roles.DOCTOR, Roles_ENUMS_1.Roles.MANAGER), ac.getAllAppointments)
-    .patch("/:id/accept", (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.DOCTOR), ac.acceptAppointment)
+    // accept appointment
+    .patch("/:id/accept", (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.DOCTOR), (0, validateRequest_1.default)(user_validator_1.onlyIdNeededValidation), ac.acceptAppointment)
     .route("/:id")
-    .get((0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF), ac.getAppointment)
-    .patch((0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF), ac.updateAppointment)
-    .delete((0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF, Roles_ENUMS_1.Roles.MANAGER), ac.deleteAppointment);
+    .get((0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF), (0, validateRequest_1.default)(user_validator_1.onlyIdNeededValidation), ac.getAppointment)
+    .patch((0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF), (0, validateRequest_1.default)(av.updateAppointmentValidation), ac.updateAppointment)
+    .delete((0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF, Roles_ENUMS_1.Roles.MANAGER), (0, validateRequest_1.default)(user_validator_1.onlyIdNeededValidation), ac.deleteAppointment);

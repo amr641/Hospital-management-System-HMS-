@@ -1,6 +1,10 @@
-export interface Report {
-    id: number;              // Unique identifier for the report
-    result: string;          // Result of the report, up to 45 characters
-    patient_id: number;     // Foreign key referencing the patient associated with this report
-    appointment_id: number; // Foreign key referencing the appointment (nullable)
+export interface IReport {
+    id: number;              
+    result: string;          
+    patient_id?: number;     
+    appointment_id?: number;
+    createdAt?: Date;
+    updatedAt?: Date;
+    deletedAt?: Date | null;
+
 }
