@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bootstrab = bootstrab;
 const globalHandeling_1 = require("../middlewares/globalHandeling");
+const appointment_routes_1 = require("./appointment/appointment.routes");
 const ineventory_routes_1 = require("./inventory/ineventory.routes");
 const patient_routes_1 = require("./patient/patient.routes");
 const room_routes_1 = require("./room/room.routes");
@@ -20,6 +21,7 @@ function bootstrab(app) {
     app.use(`${baseUrl}/rooms`, room_routes_1.roomRouter);
     app.use(`${baseUrl}/inventories`, ineventory_routes_1.inventoryRouter);
     app.use(`${baseUrl}/patients`, patient_routes_1.patientRouter);
+    app.use(`${baseUrl}/appointments`, appointment_routes_1.appointmentRouter);
     // global err handeling midlleware
     app.use(globalHandeling_1.globalHandeling);
     process.on("unhandledRejection", (err) => {

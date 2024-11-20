@@ -35,11 +35,13 @@ const pc = __importStar(require("./patient.controller"));
 const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
 const pv = __importStar(require("./patient.validator"));
 const user_validator_1 = require("../users/user.validator");
+const appointment_controller_1 = require("../appointment/appointment.controller");
 exports.patientRouter = (0, express_1.Router)();
 exports.patientRouter
     .use(verifiyToken_1.verifyToken, (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF))
     .post("/", (0, validateRequest_1.default)(pv.addPatientValidation), pc.addPatient)
     .get("/", pc.getAllPatients)
+    .get("/:id/appointments", (0, validateRequest_1.default)(user_validator_1.onlyIdNeededValidation), appointment_controller_1.getPatientAppointments)
     .route("/:id")
     .get((0, validateRequest_1.default)(user_validator_1.onlyIdNeededValidation), pc.getPatient)
     .patch((0, validateRequest_1.default)(pv.updatePatientValidation), pc.updatePatient)

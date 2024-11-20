@@ -2,7 +2,7 @@ import { Request, Response} from "express";
 import { Patient } from "../../../config/schemas/patient.schema";
 import { AppError } from "../../utils/appError";
 
-type PatientType = IPatient | null // patient custom type
+export type PatientType = IPatient | null // patient custom type
 const addPatient = async (req: Request, res: Response): Promise<void> => {
     let patient: PatientType = await Patient.findOne({ where: { phone_Number: req.body.phone_Number } })
     if (patient) {
@@ -25,6 +25,7 @@ const getPatient = async (req: Request, res: Response): Promise<void> => {
     if (!patient) throw new AppError("Patient Not Found", 404)
     res.status(200).json({ message: "success", patient })
 }
+
 
 const updatePatient = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params

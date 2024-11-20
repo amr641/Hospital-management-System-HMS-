@@ -6,6 +6,7 @@ import * as pc from "./patient.controller";
 import validateRequest from "../../middlewares/validateRequest"
 import * as pv from "./patient.validator"
 import { onlyIdNeededValidation } from "../users/user.validator";
+import { getPatientAppointments } from "../appointment/appointment.controller";
 
 export const patientRouter = Router()
 patientRouter
@@ -13,6 +14,8 @@ patientRouter
     .post("/", validateRequest(pv.addPatientValidation), pc.addPatient)
 
     .get("/", pc.getAllPatients)
+
+    .get("/:id/appointments", validateRequest(onlyIdNeededValidation),getPatientAppointments)
     
     .route("/:id")
     .get(validateRequest(onlyIdNeededValidation), pc.getPatient)

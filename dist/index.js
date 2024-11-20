@@ -8,6 +8,6 @@ const dbConnection_1 = require("./config/dbConnection");
 const bootstrab_1 = require("./src/modules/bootstrab");
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
-dbConnection_1.sequelize.sync();
+dbConnection_1.sequelize.sync({ force: false });
 (0, bootstrab_1.bootstrab)(app);
 app.listen(port, () => console.log(`server listening on port ${port}!`));

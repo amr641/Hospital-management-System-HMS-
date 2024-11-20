@@ -36,7 +36,8 @@ const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         name: user.name,
         email: user.email,
         role: user.role,
-        SSN: user.SSN
+        SSN: user.SSN,
+        department: user.department
     }, process.env.JWT_KEY || "secret", { expiresIn: "1h" });
     // send the success response
     res.status(201).json({ message: "success", token });
@@ -45,15 +46,17 @@ exports.signUp = signUp;
 // login 
 const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     let user = yield user_schema_1.default.findOne({ where: { SSN: req.body.SSN } });
-    console.log(user);
     // i used compare instead of comapareSync to avoid blocking the eventloop
     let passwordMatched = bcrypt_1.default.compare(req.body.password, user.password).then((result) => {
         return result;
+    }).catch((err) => {
+        if (err)
+            throw new appError_1.AppError("incorrect email or password", 403);
     });
     if (!user || !passwordMatched)
         throw new appError_1.AppError("incorrect email or password", 403);
     // sign a token
-    let token = jsonwebtoken_1.default.sign({ userId: user.id, name: user.name, email: user.email, role: user.role, SSN: user.SSN }, process.env.JWT_KEY || "secret");
+    let token = jsonwebtoken_1.default.sign({ userId: user.id, name: user.name, email: user.email, role: user.role, SSN: user.SSN, department: user.department }, process.env.JWT_KEY || "secret");
     res
         .status(200)
         .json({ message: `welcome back ${user.name}`, token });

@@ -9,7 +9,7 @@ import { onlyIdNeededValidation } from "../users/user.validator";
 
 export const inventoryRouter = Router()
 inventoryRouter
-    .use(verifyToken, allowedTo(Roles.STAFF))
+    .use(verifyToken, allowedTo(Roles.STAFF,Roles.PHARMACIST))
 
     .post("/", validateReauest(iv.addItemValidation), ic.addItem)
     .get("/", ic.getAllItems)

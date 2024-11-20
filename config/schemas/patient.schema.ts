@@ -1,5 +1,6 @@
 import { sequelize } from "../dbConnection";
 import { DataTypes, Model, Optional } from "sequelize";
+import { Appointment } from "./appointment.schema";
 interface patientCreationAttributes extends Optional<IPatient, "id"> { }
 export class Patient extends Model<IPatient, patientCreationAttributes> implements IPatient {
     public id!: number;
@@ -12,6 +13,7 @@ export class Patient extends Model<IPatient, patientCreationAttributes> implemen
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     public readonly deletedAt!: Date | null;
+    static associate: (models: any) => void;
 
 
 }
@@ -53,7 +55,7 @@ Patient.init({
     email: {
         type: DataTypes.STRING,
         allowNull: true,
-        unique:false,
+        unique: false,
         validate: {
             isEmail: true, // Ensures valid email format
         }
@@ -64,8 +66,9 @@ Patient.init({
     modelName: 'Patient',
     timestamps: true,
     paranoid: true,
-    indexes: [{ fields: ['phone_Number']}]
+    indexes: [{ fields: ['phone_Number'] }]
 
 }
 )
+
 

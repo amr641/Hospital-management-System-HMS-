@@ -1,4 +1,5 @@
 import { globalHandeling } from "../middlewares/globalHandeling";
+import { appointmentRouter } from "./appointment/appointment.routes";
 import { inventoryRouter } from "./inventory/ineventory.routes";
 import { patientRouter } from "./patient/patient.routes";
 import { roomRouter } from "./room/room.routes";
@@ -16,6 +17,7 @@ export function bootstrab(app: Express) {
     app.use(`${baseUrl}/rooms`, roomRouter)
     app.use(`${baseUrl}/inventories`, inventoryRouter)
     app.use(`${baseUrl}/patients`, patientRouter)
+    app.use(`${baseUrl}/appointments`, appointmentRouter)
     // global err handeling midlleware
     app.use(globalHandeling)
 

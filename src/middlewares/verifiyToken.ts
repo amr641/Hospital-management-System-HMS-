@@ -9,6 +9,7 @@ declare global {
   namespace Express {
     interface Request {
       user?: {
+        department: WhereAttributeHashValue<string>;
         userId: number
         name: string;
         email: string;

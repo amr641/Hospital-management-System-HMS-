@@ -1,7 +1,7 @@
 
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../dbConnection";
-import { Roles}from "../../src/modules/users/Roles.ENUMS";
+import { Roles } from "../../src/modules/users/Roles.ENUMS";
 import { IUser } from "../../src/modules/users/user.INTF";
 
 
@@ -27,8 +27,14 @@ class User extends Model<IUser, UserCreationAttributes> implements IUser {
 
 
 User.init(
+
     {
-       
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+
         name: {
             type: DataTypes.STRING(100),
             allowNull: false,

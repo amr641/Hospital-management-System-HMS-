@@ -1,16 +1,21 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../dbConnection";
 import { IAppointment } from "../../src/modules/appointment/appointment.INTF";
+import { Status } from "../../src/modules/appointment/appointment.ENUM";
+import { Patient } from "./patient.schema";
+import User from "./user.schema";
 
 interface AppointmentCreationAttributes extends Optional<IAppointment, "id"> { }
-class Appointment extends Model<IAppointment, AppointmentCreationAttributes> implements IAppointment {
+export class Appointment extends Model<IAppointment, AppointmentCreationAttributes> implements IAppointment {
+
     public id!: number;
     public department!: string;
     public date!: Date;
-    public Doctor_id!: number;
+    public doctor_id!: number;
     public patient_id!: number;
-    public staff_id!: number
+    public staff_SSN!: number
     public room_id!: number;
+    public status !: Status
 
     // Timestamps
     public readonly createdAt!: Date;
@@ -20,7 +25,7 @@ class Appointment extends Model<IAppointment, AppointmentCreationAttributes> imp
 }
 
 Appointment.init({
-    id: {
+    id:{
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
@@ -29,53 +34,38 @@ Appointment.init({
         type: DataTypes.STRING(30),
         allowNull: false,
     },
-    staff_id: {
+    staff_SSN: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: 'User',
-            key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
     },
     date: {
         type: DataTypes.DATE,
         allowNull: false,
         validate: {
-            isDate: true, 
-            isAfter: new Date().toISOString(), 
+            isDate: true,
+            isAfter: new Date().toISOString(),
         }
     },
-    Doctor_id: {
+    doctor_id: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        references: {
-            model: 'User',
-            key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
-    },
-    patient_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'Patient',
-            key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+        references:{
+            model:"users",
+            key:"id"
+        }
     },
     room_id: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        references: {
-            model: "rooms",
-            key: "id"
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+        references:{
+            model:"rooms",
+            key:"id"
+        }
+    },
+    status: {
+        type: DataTypes.ENUM(...Object.values(Status)),
+        allowNull: false,
+        defaultValue: Status.Scheduled,
     }
 }, {
     paranoid: true,
@@ -83,4 +73,13 @@ Appointment.init({
     modelName: 'Appointment',
     timestamps: true,
 
-}) 
+})
+Patient.hasMany(Appointment, { 
+    onUpdate: "CASCADE",
+    onDelete: "SET NULL",
+    foreignKey: "patient_id" // Custom foreign key name
+});
+
+Appointment.belongsTo(Patient, {
+    foreignKey: "patient_id" // Ensure both sides use the same foreign key
+});

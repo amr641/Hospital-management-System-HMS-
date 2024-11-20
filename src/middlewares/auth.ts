@@ -27,7 +27,8 @@ const signUp =
         name: user.name,
         email: user.email,
         role: user.role,
-        SSN: user.SSN
+        SSN: user.SSN,
+        department: user.department
       },
       process.env.JWT_KEY as string || "secret",
       { expiresIn: "1h" }
@@ -40,17 +41,20 @@ const signUp =
 const login =
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     let user = await User.findOne({ where: { SSN: req.body.SSN } });
-    console.log(user);
 
     // i used compare instead of comapareSync to avoid blocking the eventloop
     let passwordMatched = bcrypt.compare(req.body.password, user!.password).then((result) => {
       return result
+    }).catch((err) => {
+      if (err)
+        throw new AppError("incorrect email or password", 403)
     })
+
     if (!user || !passwordMatched!)
       throw new AppError("incorrect email or password", 403)
     // sign a token
     let token = jwt.sign(
-      { userId: user.id, name: user.name, email: user.email, role: user.role, SSN: user.SSN },
+      { userId: user.id, name: user.name, email: user.email, role: user.role, SSN: user.SSN, department: user.department },
       process.env.JWT_KEY as string || "secret"
     );
     res

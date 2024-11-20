@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import Room from "../../../config/schemas/room.schema";
-import { where } from "sequelize";
+
 import { AppError } from "../../utils/appError";
 import { IRoom } from "./room.INTF";
+export type RoomType= IRoom|null
 // add a new room
 const addRoom = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     let room: IRoom = await Room.create(req.body)
@@ -11,14 +12,14 @@ const addRoom = async (req: Request, res: Response, next: NextFunction): Promise
 
 // update room
 const updateRoom = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    let room: IRoom | null = await Room.findByPk(req.params.id)
+    let room: RoomType = await Room.findByPk(req.params.id)
     if (!room) throw new AppError(`Room:${req.params.id} does nor exist`, 404) // if not exist
     await Room.update(req.body, { where: { id: room.id } }) // update if exist
     res.status(200).json({ message: "success" }) //return the response
 }
 // delete room
 const deleteRoom = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    let room: IRoom | null = await Room.findByPk(req.params.id)
+    let room: RoomType = await Room.findByPk(req.params.id)
     if (!room) throw new AppError(`Room:${req.params.id} does nor exist`, 404) // if not exist
     await room.destroy() // delete if exist
     res.status(200).json({ message: "success" }) //return the response
@@ -26,7 +27,7 @@ const deleteRoom = async (req: Request, res: Response, next: NextFunction): Prom
 
 // get room
 const getRoom = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    let room: IRoom | null = await Room.findByPk(req.params.id)
+    let room: RoomType = await Room.findByPk(req.params.id)
     if (!room) throw new AppError(`Room:${req.params.id} does nor exist`, 404)
     res.status(200).json({ message: "success", room })
 }
