@@ -8,6 +8,8 @@ import { Status } from "./appointment.ENUM";
 import { Op } from "sequelize";
 
 export type AppointmentType = IAppointment | null // appointmnent custom type
+
+let appointmentNotFound = new AppError("appointment not found", 404)
 // add appointment
 const addAppointmnet = async (req: Request, res: Response): Promise<void> => {
     let appointment: AppointmentType = await Appointment.findOne({ where: { patient_id: req.body.patient_id } })
@@ -58,7 +60,7 @@ const getPatientAppointments = async (req: Request, res: Response): Promise<void
 // get appointment
 const getAppointment = async (req: Request, res: Response): Promise<void> => {
     let appointment: AppointmentType = await Appointment.findByPk(req.params.id)
-    if (!appointment) throw new AppError("appointment not found", 404)
+    if (!appointment) throw appointmentNotFound
     res.status(200).json({ message: "success", appointment })
 }
 
@@ -66,7 +68,7 @@ const getAppointment = async (req: Request, res: Response): Promise<void> => {
 const acceptAppointment = async (req: Request, res: Response): Promise<void> => {
     // appointment acceptance here is updating the appointment by adding the doctor_id
     let appointment: AppointmentType = await Appointment.findByPk(req.params.id)
-    if (!appointment) throw new AppError("appointment not found", 404)
+    if (!appointment) throw appointmentNotFound
     await Appointment.update({ doctor_id: req.user?.userId }, { where: { id: req.params.id } })
     res.status(200).json({ message: "appointment accepted successfully" })
 }
@@ -74,7 +76,7 @@ const acceptAppointment = async (req: Request, res: Response): Promise<void> => 
 // update Appointment
 const updateAppointment = async (req: Request, res: Response): Promise<void> => {
     let appointment: AppointmentType = await Appointment.findByPk(req.params.id)
-    if (!appointment) throw new AppError("appointment not found", 404)
+    if (!appointment) throw appointmentNotFound
     if (req.body.date) appointment.status = Status.Rescheduled
     await Appointment.update(req.body, { where: { id: appointment.id } })
     res.status(200).json({ message: "success", appointment })
@@ -82,7 +84,7 @@ const updateAppointment = async (req: Request, res: Response): Promise<void> => 
 // delete Appointment
 const deleteAppointment = async (req: Request, res: Response): Promise<void> => {
     let appointment: AppointmentType = await Appointment.findByPk(req.params.id)
-    if (!appointment) throw new AppError("appointment not found", 404)
+    if (!appointment) throw appointmentNotFound
 
     await Appointment.destroy({ where: { id: appointment.id } })
     res.status(200).json({ message: "success" })
