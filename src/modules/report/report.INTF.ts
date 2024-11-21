@@ -1,4 +1,5 @@
 export interface IReport {
+    [x: string]: any;
     id: number;
     result: string;
     patient_id?: number;

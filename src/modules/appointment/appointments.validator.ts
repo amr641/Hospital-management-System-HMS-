@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { Status } from './appointment.ENUM';
 
 // Joi validation schema with customized error messages
 const addAppointmentValidation = Joi.object({
@@ -15,13 +16,27 @@ const addAppointmentValidation = Joi.object({
     staff_SSN: Joi.number()
         .integer()
         .positive()
-        .required() // `staff_SSN` is required and should be a positive integer
+        .optional() // `staff_SSN` is required and should be a positive integer
         .messages({
             'number.base': 'Staff SSN must be a number.',
             'number.integer': 'Staff SSN must be an integer.',
             'number.positive': 'Staff SSN must be a positive number.',
-            'any.required': 'Staff SSN is required.'
+
         }),
+    patient_id: Joi.number()
+        .integer()
+        .positive() // `doctor_id` can be null or a positive integer
+        .messages({
+            'number.base': 'patient ID must be a number.',
+            'number.integer': 'patient ID must be an integer.',
+            'number.positive': 'patient ID must be a positive number.',
+
+        }),
+        status: Joi.string()
+        .valid(...Object.values(Status))
+        .default(Status.Scheduled)
+        .optional(),
+
 
     date: Joi.date()
         .greater(new Date().toISOString()) // Ensures the date is after the current time
@@ -66,8 +81,12 @@ const updateAppointmentValidation = Joi.object({
         .messages({
             'string.base': 'Department must be a string.',
             'string.max': 'Department must be at most 30 characters long.',
-          
+
         }),
+        status: Joi.string()
+        .valid(...Object.values(Status))
+        .default(Status.Scheduled)
+        .optional(),
 
     staff_SSN: Joi.number()
         .integer()
@@ -77,7 +96,7 @@ const updateAppointmentValidation = Joi.object({
             'number.base': 'Staff SSN must be a number.',
             'number.integer': 'Staff SSN must be an integer.',
             'number.positive': 'Staff SSN must be a positive number.',
-            
+
         }),
 
     date: Joi.date()
@@ -103,12 +122,11 @@ const updateAppointmentValidation = Joi.object({
     room_id: Joi.number()
         .integer()
         .positive()
-        .required()
+        .optional()
         .messages({
             'number.base': 'Room ID must be a number.',
             'number.integer': 'Room ID must be an integer.',
             'number.positive': 'Room ID must be a positive number.',
-            'any.required': 'Room ID is required !.'
         })
 });
 

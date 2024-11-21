@@ -29,7 +29,8 @@ const auth_1 = require("../../middlewares/auth");
 const Roles_ENUMS_1 = require("../users/Roles.ENUMS");
 const verifiyToken_1 = require("../../middlewares/verifiyToken");
 const rc = __importStar(require("./report.controller"));
+const checkExistence_1 = require("../../middlewares/checkExistence");
 exports.reportRouter = (0, express_1.Router)();
 exports.reportRouter
-    .use(verifiyToken_1.verifyToken, (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF))
-    .post("/", rc.generateReport);
+    .use(verifiyToken_1.verifyToken)
+    .post("/", (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF), checkExistence_1.checkPatientExistence, checkExistence_1.checkAppointment, rc.generateReport);

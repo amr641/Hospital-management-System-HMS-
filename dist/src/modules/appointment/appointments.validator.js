@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateAppointmentValidation = exports.addAppointmentValidation = void 0;
 const joi_1 = __importDefault(require("joi"));
+const appointment_ENUM_1 = require("./appointment.ENUM");
 // Joi validation schema with customized error messages
 const addAppointmentValidation = joi_1.default.object({
     department: joi_1.default.string()
@@ -18,13 +19,24 @@ const addAppointmentValidation = joi_1.default.object({
     staff_SSN: joi_1.default.number()
         .integer()
         .positive()
-        .required() // `staff_SSN` is required and should be a positive integer
+        .optional() // `staff_SSN` is required and should be a positive integer
         .messages({
         'number.base': 'Staff SSN must be a number.',
         'number.integer': 'Staff SSN must be an integer.',
         'number.positive': 'Staff SSN must be a positive number.',
-        'any.required': 'Staff SSN is required.'
     }),
+    patient_id: joi_1.default.number()
+        .integer()
+        .positive() // `doctor_id` can be null or a positive integer
+        .messages({
+        'number.base': 'patient ID must be a number.',
+        'number.integer': 'patient ID must be an integer.',
+        'number.positive': 'patient ID must be a positive number.',
+    }),
+    status: joi_1.default.string()
+        .valid(...Object.values(appointment_ENUM_1.Status))
+        .default(appointment_ENUM_1.Status.Scheduled)
+        .optional(),
     date: joi_1.default.date()
         .greater(new Date().toISOString()) // Ensures the date is after the current time
         .required() // `date` is required
@@ -68,6 +80,10 @@ const updateAppointmentValidation = joi_1.default.object({
         'string.base': 'Department must be a string.',
         'string.max': 'Department must be at most 30 characters long.',
     }),
+    status: joi_1.default.string()
+        .valid(...Object.values(appointment_ENUM_1.Status))
+        .default(appointment_ENUM_1.Status.Scheduled)
+        .optional(),
     staff_SSN: joi_1.default.number()
         .integer()
         .positive()
@@ -97,12 +113,11 @@ const updateAppointmentValidation = joi_1.default.object({
     room_id: joi_1.default.number()
         .integer()
         .positive()
-        .required()
+        .optional()
         .messages({
         'number.base': 'Room ID must be a number.',
         'number.integer': 'Room ID must be an integer.',
         'number.positive': 'Room ID must be a positive number.',
-        'any.required': 'Room ID is required !.'
     })
 });
 exports.updateAppointmentValidation = updateAppointmentValidation;

@@ -16,9 +16,10 @@ const generateReport = (req, res) => __awaiter(void 0, void 0, void 0, function*
     let report = yield report_schema_1.Report.create({
         result: req.body.result,
         appointment_id: req.body.appointment_id,
-        patient_id: req.body.appointment_id,
+        patient_id: req.body.patient_id,
         createdBy: (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId
     });
-    res.status(200).json({ message: "success", report });
+    res.status(201).json({ message: "success", report });
 });
 exports.generateReport = generateReport;
+const getAllReports = ;

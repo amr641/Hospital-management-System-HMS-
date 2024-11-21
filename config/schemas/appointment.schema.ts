@@ -54,6 +54,12 @@ Appointment.init({
             key:"id"
         }
     },
+    patient_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true, 
+        references: { model: "patients", key: 'id' },
+        onDelete: 'SET NULL',
+    },
     room_id: {
         type: DataTypes.INTEGER,
         allowNull: true,

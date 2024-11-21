@@ -30,13 +30,13 @@ Report.init({
     },
     appointment_id: {
         type: sequelize_1.DataTypes.INTEGER,
-        allowNull: true, // Changed to match 'onDelete: SET NULL'
+        allowNull: true,
         references: { model: "appointments", key: 'id' },
         onDelete: 'SET NULL',
     },
     createdBy: {
         type: sequelize_1.DataTypes.INTEGER,
-        allowNull: true, // Changed to match 'onDelete: SET NULL'
+        allowNull: true,
         references: { model: "users", key: 'id' },
         onDelete: 'SET NULL',
     },

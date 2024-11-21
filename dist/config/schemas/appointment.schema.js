@@ -38,6 +38,12 @@ Appointment.init({
             key: "id"
         }
     },
+    patient_id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: true,
+        references: { model: "patients", key: 'id' },
+        onDelete: 'SET NULL',
+    },
     room_id: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: true,

@@ -20,7 +20,7 @@ const updateRoom = async (req: Request, res: Response, next: NextFunction): Prom
 // delete room
 const deleteRoom = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     let room: RoomType = await Room.findByPk(req.params.id)
-    if (!room) throw new AppError(`Room:${req.params.id} does nor exist`, 404) // if not exist
+    if (!room) throw new AppError(`Room:${req.params.id} does not exist`, 404) // if not exist
     await room.destroy() // delete if exist
     res.status(200).json({ message: "success" }) //return the response
 }
@@ -41,7 +41,7 @@ const getAllRooms = async (req: Request, res: Response, next: NextFunction): Pro
 }
 const restoreRoom = async (req: Request, res: Response, next: NextFunction) => {
     let room = await Room.findByPk(req.params.id, { paranoid: false })
-    if (!room) throw new AppError("patient not found", 404)
+    if (!room) throw new AppError("room not found", 404)
     await room.restore()
     res.status(200).json({ message: `room with id ${room.id} restored successfully` })
 }
