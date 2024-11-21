@@ -8,6 +8,7 @@ const globalHandeling_1 = require("../middlewares/globalHandeling");
 const appointment_routes_1 = require("./appointment/appointment.routes");
 const ineventory_routes_1 = require("./inventory/ineventory.routes");
 const patient_routes_1 = require("./patient/patient.routes");
+const report_routes_1 = require("./report/report.routes");
 const room_routes_1 = require("./room/room.routes");
 const user_routes_1 = require("./users/user.routes");
 const express_1 = __importDefault(require("express"));
@@ -22,6 +23,7 @@ function bootstrab(app) {
     app.use(`${baseUrl}/inventories`, ineventory_routes_1.inventoryRouter);
     app.use(`${baseUrl}/patients`, patient_routes_1.patientRouter);
     app.use(`${baseUrl}/appointments`, appointment_routes_1.appointmentRouter);
+    app.use(`${baseUrl}/reports`, report_routes_1.reportRouter);
     // global err handeling midlleware
     app.use(globalHandeling_1.globalHandeling);
     process.on("unhandledRejection", (err) => {

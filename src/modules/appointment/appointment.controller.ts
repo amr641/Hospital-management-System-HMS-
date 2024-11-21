@@ -7,7 +7,7 @@ import { Patient } from "../../../config/schemas/patient.schema";
 import { Status } from "./appointment.ENUM";
 import { Op } from "sequelize";
 
-type AppointmentType = IAppointment | null // appointmnent custom type
+export type AppointmentType = IAppointment | null // appointmnent custom type
 // add appointment
 const addAppointmnet = async (req: Request, res: Response): Promise<void> => {
     let appointment: AppointmentType = await Appointment.findOne({ where: { patient_id: req.body.patient_id } })

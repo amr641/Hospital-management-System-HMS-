@@ -12,13 +12,13 @@ export class Report extends Model<IReport, ReportCreationAttributes> implements 
     public result!: string;
     public patient_id!: number;
     public appointment_id!: number;
+    public createdBy!: number
 
 
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     public readonly deletedAt!: Date | null;
 }
-
 
 
 
@@ -32,31 +32,36 @@ Report.init({
         type: DataTypes.STRING(45),
         allowNull: false,
         validate: {
-            len: [1, 45]
-        }
+            len: [1, 45],
+            notEmpty: true, 
+        },
     },
     patient_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        references: { model: Patient, key: 'id' },
+        allowNull: true, 
+        references: { model: "patients", key: 'id' },
         onDelete: 'SET NULL',
     },
     appointment_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        references: { model: Appointment, key: 'id' },
+        allowNull: true, 
+        references: { model: "appointments", key: 'id' },
         onDelete: 'SET NULL',
-    }
+    },
+    createdBy: {
+        type: DataTypes.INTEGER,
+        allowNull: true, 
+        references: { model: "users", key: 'id' },
+        onDelete: 'SET NULL',
+    },
+}, {
+    sequelize,
+    modelName: "Report",
+    paranoid: true,
+    timestamps: true,
+});
 
-
-}
-    , {
-        sequelize,
-        modelName: "Report",
-        paranoid: true,
-        timestamps: true
-    })
-
+// Relationships
 Patient.hasMany(Report, { foreignKey: 'patient_id', onDelete: 'SET NULL' });
 Report.belongsTo(Patient, { foreignKey: 'patient_id', onDelete: 'SET NULL' });
 
