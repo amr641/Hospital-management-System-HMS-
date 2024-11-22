@@ -28,7 +28,7 @@ const deleteRoom = async (req: Request, res: Response, next: NextFunction): Prom
 // get room
 const getRoom = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     let room: RoomType = await Room.findByPk(req.params.id)
-    if (!room) throw new AppError(`Room:${req.params.id} does nor exist`, 404)
+    if (!room) throw new AppError(`Room:${req.params.id} does not exist`, 404)
     res.status(200).json({ message: "success", room })
 }
 // get all rooms or get all rooms with department
@@ -36,7 +36,7 @@ const getAllRooms = async (req: Request, res: Response, next: NextFunction): Pro
     let department = req.query.department as string | undefined
     let rooms: IRoom[] = await Room.findAll(
         { where: department ? { department } : undefined })
-    if (!rooms.length) throw new AppError(`Room:${req.params.id} does nor exist`, 404)
+    if (!rooms.length) throw new AppError(`Room:${req.params.id} does not exist`, 404)
     res.status(200).json({ message: "success", rooms })
 }
 const restoreRoom = async (req: Request, res: Response, next: NextFunction) => {

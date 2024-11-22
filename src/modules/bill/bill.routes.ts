@@ -20,5 +20,5 @@ billRouter
     .route("/:id")
 
     .get(validateRequest(onlyIdNeededValidation), bc.getBill)
-    .patch(validateRequest(bv.updateBillValidation))
-    .delete(validateRequest(onlyIdNeededValidation))
+    .patch(validateRequest(bv.updateBillValidation),bc.updateBill)
+    .delete(validateRequest(onlyIdNeededValidation),bc.deleteBill)

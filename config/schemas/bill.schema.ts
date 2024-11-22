@@ -56,6 +56,11 @@ Bill.init({
     timestamps: true
 })
 // relationships 
-Patient.hasMany(Bill)
-Bill.belongsTo(Patient)
+Patient.hasMany(Bill,{
+    foreignKey:"patient_id"
+})
+Bill.belongsTo(Patient,{
+    foreignKey:"patient_id"
+})
+
 

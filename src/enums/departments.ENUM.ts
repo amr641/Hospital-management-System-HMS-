@@ -4,5 +4,6 @@ export enum HospitalDepartment {
     Pediatrics = 'Pediatrics',
     Radiology = 'Radiology',
     Orthopedics = 'Orthopedics',
+    NoDepartment= "no depertment"
   }
   

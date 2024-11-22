@@ -71,7 +71,7 @@ User.init(
         department: {
             type: DataTypes.ENUM(...Object.values(HospitalDepartment)),
             allowNull: true,
-            defaultValue: "no department",
+            defaultValue: HospitalDepartment.NoDepartment,
         },
         role: {
             type: DataTypes.ENUM(...Object.values(Roles)),

@@ -46,7 +46,7 @@ const signUpValidation = Joi.object({
         }),
     department: Joi.string()
         .valid(...departmentsArray)
-        .default("no department")
+        .default(HospitalDepartment.NoDepartment)
         .optional(),
     role: Joi.string()
         .valid(...rolesArray)
@@ -107,7 +107,7 @@ const updateUserValidation = Joi.object({
         }),
     department: Joi.string()
         .valid(...departmentsArray)
-        .default("no department")
+        .default(HospitalDepartment.NoDepartment)
         .optional(),
     role: Joi.string()
         .valid(...rolesArray)

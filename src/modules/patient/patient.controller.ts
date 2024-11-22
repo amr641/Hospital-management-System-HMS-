@@ -3,6 +3,9 @@ import { Patient } from "../../../config/schemas/patient.schema";
 import { AppError } from "../../utils/appError";
 
 export type PatientType = IPatient | null // patient custom type
+
+let patientNotFound= new AppError("Patient Not Found", 404);
+
 const addPatient = async (req: Request, res: Response): Promise<void> => {
     let patient: PatientType = await Patient.findOne({ where: { phone_Number: req.body.phone_Number } })
     if (patient) {
@@ -22,7 +25,7 @@ const getAllPatients = async (req: Request, res: Response): Promise<void> => {
 const getPatient = async (req: Request, res: Response): Promise<void> => {
     let patient: PatientType = await Patient.findByPk(req.params.id)
 
-    if (!patient) throw new AppError("Patient Not Found", 404)
+    if (!patient) throw patientNotFound
     res.status(200).json({ message: "success", patient })
 }
 
@@ -30,7 +33,7 @@ const getPatient = async (req: Request, res: Response): Promise<void> => {
 const updatePatient = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
     let patient: PatientType = await Patient.findByPk(id)
-    if (!patient) throw new AppError("Patient not found", 404)
+    if (!patient) throw patientNotFound
     await Patient.update(req.body, { where: { id: patient.id } })
 
 
@@ -40,7 +43,7 @@ const updatePatient = async (req: Request, res: Response): Promise<void> => {
 const deletePatient = async (req: Request, res: Response): Promise<void> => {
     // find the item
     const patient: PatientType = await Patient.findByPk(req.params.id)
-    if (!patient) throw new AppError("patient not found", 404)
+    if (!patient) throw patientNotFound
     // destoy it
     await Patient.destroy({ where: { id: patient.id } })
     res.status(200).json({ message: "success", patient })
@@ -48,7 +51,7 @@ const deletePatient = async (req: Request, res: Response): Promise<void> => {
 
 const restorePatient = async (req: Request, res: Response) => {
     let patient = await Patient.findByPk(req.params.id, { paranoid: false })
-    if (!patient) throw new AppError("patient not found", 404)
+    if (!patient) throw patientNotFound
     await patient.restore()
     res.status(200).json({ message: `patient with id ${patient.id} restored successfully` })
 }

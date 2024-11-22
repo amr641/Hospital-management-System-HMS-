@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 
 export const sequelize = new Sequelize('hms', 'root',"" ,{
-    host: '127.0.0.1',
+    host: process.env.IP_Address,
     dialect: 'mysql'
   });
   
