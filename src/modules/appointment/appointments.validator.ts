@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { Status } from './appointment.ENUM';
+import { Status } from '../../enums/appointment.ENUM';
 
 // Joi validation schema with customized error messages
 const addAppointmentValidation = Joi.object({
@@ -32,7 +32,7 @@ const addAppointmentValidation = Joi.object({
             'number.positive': 'patient ID must be a positive number.',
 
         }),
-        status: Joi.string()
+    status: Joi.string()
         .valid(...Object.values(Status))
         .default(Status.Scheduled)
         .optional(),
@@ -83,7 +83,7 @@ const updateAppointmentValidation = Joi.object({
             'string.max': 'Department must be at most 30 characters long.',
 
         }),
-        status: Joi.string()
+    status: Joi.string()
         .valid(...Object.values(Status))
         .default(Status.Scheduled)
         .optional(),

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { verifyToken } from "../../middlewares/verifiyToken";
 import { allowedTo } from "../../middlewares/auth";
-import { Roles } from "../users/Roles.ENUMS";
+import { Roles } from "../../enums/Roles.ENUMS";
 import * as pc from "./patient.controller";
 import validateRequest from "../../middlewares/validateRequest"
 import * as pv from "./patient.validator"
@@ -15,8 +15,8 @@ patientRouter
 
     .get("/", pc.getAllPatients)
 
-    .get("/:id/appointments", validateRequest(onlyIdNeededValidation),getPatientAppointments)
-    
+    .get("/:id/appointments", validateRequest(onlyIdNeededValidation), getPatientAppointments)
+
     .route("/:id")
     .get(validateRequest(onlyIdNeededValidation), pc.getPatient)
 

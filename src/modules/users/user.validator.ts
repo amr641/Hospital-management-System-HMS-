@@ -1,8 +1,10 @@
 import Joi from "joi";
-import { Roles } from "./Roles.ENUMS"; // Import your Roles enum or object
+import { Roles } from "../../enums/Roles.ENUMS"; // Import your Roles enum or object
+import { HospitalDepartment } from "../../enums/departments.ENUM";
 
 // Convert Roles enum/object to an array of valid values
 const rolesArray = Object.values(Roles);
+const departmentsArray = Object.values(HospitalDepartment)
 
 const signUpValidation = Joi.object({
     name: Joi.string()
@@ -43,11 +45,9 @@ const signUpValidation = Joi.object({
             "any.required": "Email is required",
         }),
     department: Joi.string()
-        .max(100)
+        .valid(...departmentsArray)
         .default("no department")
-        .messages({
-            "string.max": "Department must not exceed 100 characters",
-        }),
+        .optional(),
     role: Joi.string()
         .valid(...rolesArray)
         .default(Roles.STAFF)
@@ -106,11 +106,9 @@ const updateUserValidation = Joi.object({
             "string.max": "Email must not exceed 45 characters",
         }),
     department: Joi.string()
-        .max(100)
+        .valid(...departmentsArray)
         .default("no department")
-        .messages({
-            "string.max": "Department must not exceed 100 characters",
-        }),
+        .optional(),
     role: Joi.string()
         .valid(...rolesArray)
         .default(Roles.STAFF)

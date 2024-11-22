@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../dbConnection";
 import { IAppointment } from "../../src/modules/appointment/appointment.INTF";
-import { Status } from "../../src/modules/appointment/appointment.ENUM";
+import { Status } from "../../src/enums/appointment.ENUM";
 import { Patient } from "./patient.schema";
 import User from "./user.schema";
 
@@ -25,7 +25,7 @@ export class Appointment extends Model<IAppointment, AppointmentCreationAttribut
 }
 
 Appointment.init({
-    id:{
+    id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
@@ -49,23 +49,23 @@ Appointment.init({
     doctor_id: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        references:{
-            model:"users",
-            key:"id"
+        references: {
+            model: "users",
+            key: "id"
         }
     },
     patient_id: {
         type: DataTypes.INTEGER,
-        allowNull: true, 
+        allowNull: true,
         references: { model: "patients", key: 'id' },
         onDelete: 'SET NULL',
     },
     room_id: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        references:{
-            model:"rooms",
-            key:"id"
+        references: {
+            model: "rooms",
+            key: "id"
         }
     },
     status: {
@@ -80,7 +80,7 @@ Appointment.init({
     timestamps: true,
 
 })
-Patient.hasMany(Appointment, { 
+Patient.hasMany(Appointment, {
     onUpdate: "CASCADE",
     onDelete: "SET NULL",
     foreignKey: "patient_id" // Custom foreign key name

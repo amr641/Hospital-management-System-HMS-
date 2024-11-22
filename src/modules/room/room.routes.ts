@@ -2,7 +2,7 @@ import { Router } from "express";
 import * as rc from "./room.controller"
 import { verifyToken } from "../../middlewares/verifiyToken";
 import { allowedTo } from "../../middlewares/auth";
-import { Roles } from "../users/Roles.ENUMS";
+import { Roles } from "../../enums/Roles.ENUMS";
 import validateRequest from "../../middlewares/validateRequest"
 import * as rv from "./room.validator"
 import { onlyIdNeededValidation } from "../users/user.validator";

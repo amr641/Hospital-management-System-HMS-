@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { verifyToken } from "../../middlewares/verifiyToken";
 import { allowedTo } from "../../middlewares/auth";
-import { Roles } from "../users/Roles.ENUMS";
+import { Roles } from "../../enums/Roles.ENUMS";
 import { checkPatientExistence, checkRoomExistence } from "../../middlewares/checkExistence";
 import * as ac from "./appointment.controller";
 import validataRequest from "../../middlewares/validateRequest"
@@ -19,25 +19,25 @@ appointmentRouter
     )
     // get all appointments based on role
     .get('/', allowedTo(Roles.STAFF,
-         Roles.DOCTOR, Roles.MANAGER),
+        Roles.DOCTOR, Roles.MANAGER),
         ac.getAllAppointments)
 
     // accept appointment
     .patch("/:id/accept",
-         allowedTo(Roles.DOCTOR),
+        allowedTo(Roles.DOCTOR),
         validataRequest(onlyIdNeededValidation),
         ac.acceptAppointment)
 
     .route("/:id")
 
     .get(allowedTo(Roles.STAFF),
-     validataRequest(onlyIdNeededValidation),
-      ac.getAppointment)
+        validataRequest(onlyIdNeededValidation),
+        ac.getAppointment)
 
     .patch(allowedTo(Roles.STAFF),
-     validataRequest(av.updateAppointmentValidation),
-      ac.updateAppointment)
+        validataRequest(av.updateAppointmentValidation),
+        ac.updateAppointment)
 
     .delete(allowedTo(Roles.STAFF, Roles.MANAGER),
-     validataRequest(onlyIdNeededValidation),
-      ac.deleteAppointment)
+        validataRequest(onlyIdNeededValidation),
+        ac.deleteAppointment)

@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import { IAppointment } from "./appointment.INTF";
 import { Appointment } from "../../../config/schemas/appointment.schema";
 import { AppError } from "../../utils/appError";
-import { Roles } from "../users/Roles.ENUMS";
+import { Roles } from "../../enums/Roles.ENUMS";
 import { Patient } from "../../../config/schemas/patient.schema";
-import { Status } from "./appointment.ENUM";
+import { Status } from "../../enums/appointment.ENUM";
 import { Op } from "sequelize";
 
 export type AppointmentType = IAppointment | null // appointmnent custom type

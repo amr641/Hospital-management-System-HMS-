@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { allowedTo } from "../../middlewares/auth";
-import { Roles } from "../users/Roles.ENUMS";
+import { Roles } from "../../enums/Roles.ENUMS";
 import { verifyToken } from "../../middlewares/verifiyToken";
 import * as rc from "./report.controller"
 import { checkAppointment, checkPatientExistence } from "../../middlewares/checkExistence";

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { verifyToken } from "../../middlewares/verifiyToken";
 import { allowedTo } from "../../middlewares/auth";
-import { Roles } from "../users/Roles.ENUMS";
+import { Roles } from "../../enums/Roles.ENUMS";
 import * as bc from "./bill.controller"
 import { checkPatientExistence } from "../../middlewares/checkExistence";
 import validateRequest from "../../middlewares/validateRequest";
@@ -18,7 +18,7 @@ billRouter
     )
     .get("/", bc.getAllBills)
     .route("/:id")
-    
+
     .get(validateRequest(onlyIdNeededValidation), bc.getBill)
     .patch(validateRequest(bv.updateBillValidation))
     .delete(validateRequest(onlyIdNeededValidation))

@@ -2,7 +2,7 @@ import { Router } from "express";
 import { allowedTo, login, signUp } from "../../middlewares/auth";
 import * as uc from "./user.controller"
 import { verifyToken } from "../../middlewares/verifiyToken";
-import { Roles } from "./Roles.ENUMS";
+import { Roles } from "../../enums/Roles.ENUMS";
 import validateRequest from "../../middlewares/validateRequest"
 import * as uv from "./user.validator"
 

@@ -6,7 +6,7 @@ import { PatientType } from "../modules/patient/patient.controller";
 import { RoomType } from "../modules/room/room.controller";
 import { Appointment } from "../../config/schemas/appointment.schema";
 import { AppointmentType } from "../modules/appointment/appointment.controller";
-import { Status } from "../modules/appointment/appointment.ENUM";
+import { Status } from "../enums/appointment.ENUM";
 
 const checkPatientExistence = async (req: Request, res: Response, next: NextFunction) => {
     let patient: PatientType = await Patient.findByPk(req.body.patient_id)

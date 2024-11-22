@@ -1,8 +1,9 @@
 
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../dbConnection";
-import { Roles } from "../../src/modules/users/Roles.ENUMS";
+import { Roles } from "../../src/enums/Roles.ENUMS";
 import { IUser } from "../../src/modules/users/user.INTF";
+import { HospitalDepartment } from "../../src/enums/departments.ENUM";
 
 
 
@@ -68,7 +69,7 @@ User.init(
             },
         },
         department: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.ENUM(...Object.values(HospitalDepartment)),
             allowNull: true,
             defaultValue: "no department",
         },
