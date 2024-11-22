@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteItem = exports.updateItem = exports.getItem = exports.getAllItems = exports.addItem = void 0;
 const inventory_schema_1 = __importDefault(require("../../../config/schemas/inventory.schema"));
 const appError_1 = require("../../utils/appError");
+let itemNotFound = new appError_1.AppError("item not found", 404);
 const addItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     req.body.handled_by = (_a = req.user) === null || _a === void 0 ? void 0 : _a.SSN;
@@ -32,7 +33,7 @@ exports.getAllItems = getAllItems;
 const getItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let item = yield inventory_schema_1.default.findByPk(req.params.id);
     if (!item)
-        throw new appError_1.AppError("item not found", 404);
+        throw itemNotFound;
     res.status(200).json({ message: "success", item });
 });
 exports.getItem = getItem;
@@ -43,7 +44,7 @@ const updateItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         returning: true,
     });
     if (!affectedRows)
-        throw new appError_1.AppError("item not found", 404);
+        throw itemNotFound;
     res.status(200).json({ message: "success", data: updatedItem });
 });
 exports.updateItem = updateItem;
@@ -51,7 +52,7 @@ const deleteItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     // find the item
     const item = yield inventory_schema_1.default.findByPk(req.params.id);
     if (!item)
-        throw new appError_1.AppError("item not found", 404);
+        throw itemNotFound;
     // destoy it
     yield inventory_schema_1.default.destroy({ where: { id: item.id } });
     res.status(200).json({ message: "success", item });

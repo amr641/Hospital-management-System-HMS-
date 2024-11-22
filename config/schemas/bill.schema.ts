@@ -1,7 +1,23 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../dbConnection";
+import { IBill } from "../../src/modules/bill/bill.INTF";
+import { Patient } from "./patient.schema";
 
-export const Bill = sequelize.define("Bill", {
+
+
+interface BillCreationAttributes extends Optional<IBill, "id"> { }
+export class Bill extends Model<IBill, BillCreationAttributes> implements IBill {
+    public id!: number;
+    public amount!: string;
+    public patient_id!: number;
+    public createdBy!: number;
+    public createdAt?: Date;
+    public updatedAt?: Date;
+    public deletedAt?: Date | null;
+
+}
+
+Bill.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -11,17 +27,35 @@ export const Bill = sequelize.define("Bill", {
         type: DataTypes.STRING(45),
         allowNull: false,
         validate: {
-            len: [1, 45] // Ensures the length is within 1 to 45 characters
+            len: [1, 45]
         }
     },
     patient_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'Patient', // Assumes there is a 'Patients' table
+            model: 'patients',
             key: 'id'
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
-    }
-});
+    },
+
+    createdBy: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'users',
+            key: 'id'
+        },
+        onDelete: "SET NULL"
+    },
+
+}, {
+    sequelize,
+    modelName: "Bill",
+    paranoid: true,
+    timestamps: true
+})
+// relationships 
+Patient.hasMany(Bill)
+Bill.belongsTo(Patient)
+

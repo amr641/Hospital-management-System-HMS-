@@ -22,6 +22,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.reportRouter = void 0;
 const express_1 = require("express");
@@ -30,7 +33,17 @@ const Roles_ENUMS_1 = require("../users/Roles.ENUMS");
 const verifiyToken_1 = require("../../middlewares/verifiyToken");
 const rc = __importStar(require("./report.controller"));
 const checkExistence_1 = require("../../middlewares/checkExistence");
+const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const rv = __importStar(require("./report.validator"));
+const user_validator_1 = require("../users/user.validator");
 exports.reportRouter = (0, express_1.Router)();
 exports.reportRouter
-    .use(verifiyToken_1.verifyToken)
-    .post("/", (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF), checkExistence_1.checkPatientExistence, checkExistence_1.checkAppointment, rc.generateReport);
+    .use(verifiyToken_1.verifyToken, (0, auth_1.allowedTo)(Roles_ENUMS_1.Roles.STAFF, Roles_ENUMS_1.Roles.MANAGER))
+    .post("/", (0, validateRequest_1.default)(rv.generateReportValidation), checkExistence_1.checkPatientExistence, checkExistence_1.checkAppointment, rc.generateReport)
+    .get("/", rc.getAllReports)
+    .get("/:id/patient", (0, validateRequest_1.default)(user_validator_1.onlyIdNeededValidation), rc.getAllPatientReports)
+    .route("/:id")
+    .get((0, validateRequest_1.default)(user_validator_1.onlyIdNeededValidation), rc.getreport)
+    .patch((0, validateRequest_1.default)(rv.updateReportValidation), rc.updateReport)
+    .delete((0, validateRequest_1.default)(user_validator_1.onlyIdNeededValidation), rc.deleteReport)
+    .put((0, validateRequest_1.default)(user_validator_1.onlyIdNeededValidation), rc.restoreReport);

@@ -16,6 +16,7 @@ const Roles_ENUMS_1 = require("../users/Roles.ENUMS");
 const patient_schema_1 = require("../../../config/schemas/patient.schema");
 const appointment_ENUM_1 = require("./appointment.ENUM");
 const sequelize_1 = require("sequelize");
+let appointmentNotFound = new appError_1.AppError("appointment not found", 404);
 // add appointment
 const addAppointmnet = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -71,7 +72,7 @@ exports.getPatientAppointments = getPatientAppointments;
 const getAppointment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let appointment = yield appointment_schema_1.Appointment.findByPk(req.params.id);
     if (!appointment)
-        throw new appError_1.AppError("appointment not found", 404);
+        throw appointmentNotFound;
     res.status(200).json({ message: "success", appointment });
 });
 exports.getAppointment = getAppointment;
@@ -81,7 +82,7 @@ const acceptAppointment = (req, res) => __awaiter(void 0, void 0, void 0, functi
     // appointment acceptance here is updating the appointment by adding the doctor_id
     let appointment = yield appointment_schema_1.Appointment.findByPk(req.params.id);
     if (!appointment)
-        throw new appError_1.AppError("appointment not found", 404);
+        throw appointmentNotFound;
     yield appointment_schema_1.Appointment.update({ doctor_id: (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId }, { where: { id: req.params.id } });
     res.status(200).json({ message: "appointment accepted successfully" });
 });
@@ -90,7 +91,7 @@ exports.acceptAppointment = acceptAppointment;
 const updateAppointment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let appointment = yield appointment_schema_1.Appointment.findByPk(req.params.id);
     if (!appointment)
-        throw new appError_1.AppError("appointment not found", 404);
+        throw appointmentNotFound;
     if (req.body.date)
         appointment.status = appointment_ENUM_1.Status.Rescheduled;
     yield appointment_schema_1.Appointment.update(req.body, { where: { id: appointment.id } });
@@ -101,7 +102,7 @@ exports.updateAppointment = updateAppointment;
 const deleteAppointment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let appointment = yield appointment_schema_1.Appointment.findByPk(req.params.id);
     if (!appointment)
-        throw new appError_1.AppError("appointment not found", 404);
+        throw appointmentNotFound;
     yield appointment_schema_1.Appointment.destroy({ where: { id: appointment.id } });
     res.status(200).json({ message: "success" });
 });

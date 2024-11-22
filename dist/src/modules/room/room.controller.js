@@ -34,7 +34,7 @@ exports.updateRoom = updateRoom;
 const deleteRoom = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     let room = yield room_schema_1.default.findByPk(req.params.id);
     if (!room)
-        throw new appError_1.AppError(`Room:${req.params.id} does nor exist`, 404); // if not exist
+        throw new appError_1.AppError(`Room:${req.params.id} does not exist`, 404); // if not exist
     yield room.destroy(); // delete if exist
     res.status(200).json({ message: "success" }); //return the response
 });
@@ -59,7 +59,7 @@ exports.getAllRooms = getAllRooms;
 const restoreRoom = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     let room = yield room_schema_1.default.findByPk(req.params.id, { paranoid: false });
     if (!room)
-        throw new appError_1.AppError("patient not found", 404);
+        throw new appError_1.AppError("room not found", 404);
     yield room.restore();
     res.status(200).json({ message: `room with id ${room.id} restored successfully` });
 });
