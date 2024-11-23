@@ -3,7 +3,6 @@ import { sequelize } from "../dbConnection";
 import { IAppointment } from "../../src/modules/appointment/appointment.INTF";
 import { Status } from "../../src/enums/appointment.ENUM";
 import { Patient } from "./patient.schema";
-import User from "./user.schema";
 
 interface AppointmentCreationAttributes extends Optional<IAppointment, "id"> { }
 export class Appointment extends Model<IAppointment, AppointmentCreationAttributes> implements IAppointment {

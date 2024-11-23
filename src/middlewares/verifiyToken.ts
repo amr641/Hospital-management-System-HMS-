@@ -2,34 +2,9 @@ import { Request, Response, NextFunction } from "express";
 import jwt, { VerifyErrors } from "jsonwebtoken";
 import { AppError } from "../utils/appError";
 import User from "../../config/schemas/user.schema";
+import { DecodedToken } from "../types/express";
 
 
-declare global {
-  // extending the Request type globaly
-  namespace Express {
-    interface Request {
-      user?: {
-        department:string;
-        userId: number
-        name: string;
-        email: string;
-        iat: number;
-        role: string;
-        SSN: number
-      };
-
-    }
-  }
-}
-type DecodedToken = {
-  userId: number;
-  name: string;
-  email: string;
-  iat: number;
-  role: string;
-  SSN: number;
-  department:string
-};
 
 export const verifyToken = async (
   req: Request,
@@ -45,6 +20,9 @@ export const verifyToken = async (
 
   const decoded = await new Promise<DecodedToken>((resolve, reject) => {
     jwt.verify(token, process.env.JWT_KEY || 'secret', (err, decoded) => {
+      if (err?.name === 'TokenExpiredError') {
+        throw new AppError('Token expired', 401)
+      }
       if (err) {
         reject(new AppError('Invalid token', 401));
       }

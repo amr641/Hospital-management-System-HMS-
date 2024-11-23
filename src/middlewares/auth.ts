@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { AppError } from "../utils/appError";
 import dotEnv from "dotenv"
 import User from "../../config/schemas/user.schema";
+
 // user signing up
 const signUp =
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
