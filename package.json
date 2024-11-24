@@ -1,7 +1,7 @@
 {
   "name": "hms",
   "version": "1.0.0",
-  "main": "dis/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "concurrently \"tsc --watch\" \"nodemon dist/index.js\""
   },
