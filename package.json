@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "concurrently \"tsc --watch\" \"nodemon dist/index.js\""
+    "start": "dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
- 
     "bcrypt": "^5.1.1",
     "concurrently": "^9.1.0",
     "dotenv": "^16.4.5",
