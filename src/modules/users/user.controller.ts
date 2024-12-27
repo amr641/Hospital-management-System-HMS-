@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import User from "../../../config/schemas/user.schema";
 import { AppError } from "../../utils/appError";
-import { IUser } from "./user.INTF";
+import { IUser } from "../../interfaces/user.INTF";
 type userType = IUser | null
 
 let userNotFound = new AppError("user not found", 404);

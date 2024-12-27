@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../dbConnection";
-import { IInventory } from "../../src/modules/inventory/inventory.INTF";
+import { IInventory } from "../../src/interfaces/inventory.INTF";
 interface InventoryCreationAttributes extends Optional<IInventory, "id"> { }
 
 class Inventory extends Model<IInventory, InventoryCreationAttributes> implements IInventory {
@@ -50,7 +50,7 @@ Inventory.init({
     handled_by: {
         type: DataTypes.INTEGER,
         allowNull: false,
-      },
+    },
 
 },
     {

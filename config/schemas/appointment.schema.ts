@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../dbConnection";
-import { IAppointment } from "../../src/modules/appointment/appointment.INTF";
+import { IAppointment } from "../../src/interfaces/appointment.INTF";
 import { Status } from "../../src/enums/appointment.ENUM";
 import { Patient } from "./patient.schema";
 

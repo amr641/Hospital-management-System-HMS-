@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IReport } from "./report.INTF";
+import { IReport } from "../../interfaces/report.INTF";
 import { Report } from "../../../config/schemas/report.schema";
 import { AppError } from "../../utils/appError";
 type ReportType = IReport | null
@@ -29,20 +29,20 @@ const getAllPatientReports = async (req: Request, res: Response) => {
 const getreport = async (req: Request, res: Response) => {
     let report: ReportType = await Report.findByPk(req.params.id)
     if (!report) throw reportNotFound
-    res.status(200).json({ message: "success",report })
+    res.status(200).json({ message: "success", report })
 }
 
 const updateReport = async (req: Request, res: Response) => {
     let report: ReportType = await Report.findByPk(req.params.id)
     if (!report) throw reportNotFound
     await Report.update(req.body, { where: { id: report.id } })
-    res.status(201).json({message:"success",report})
+    res.status(201).json({ message: "success", report })
 }
 const deleteReport = async (req: Request, res: Response) => {
     let report: ReportType = await Report.findByPk(req.params.id)
     if (!report) throw reportNotFound
     await Report.destroy({ where: { id: report.id } })
-    res.status(200).json({message:"success",report})
+    res.status(200).json({ message: "success", report })
 }
 const restoreReport = async (req: Request, res: Response) => {
     let report: ReportType = await Report.findByPk(req.params.id, { paranoid: false })

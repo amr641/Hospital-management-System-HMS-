@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../dbConnection";
-import { IRoom } from "../../src/modules/room/room.INTF";
+import { IRoom } from "../../src/interfaces/room.INTF";
 
 
 
@@ -50,7 +50,7 @@ Room.init({
 
 },
     {
-        paranoid:true,
+        paranoid: true,
         sequelize,
         modelName: 'Room',
         timestamps: true,

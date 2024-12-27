@@ -2,7 +2,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../dbConnection";
 import { Roles } from "../../src/enums/Roles.ENUMS";
-import { IUser } from "../../src/modules/users/user.INTF";
+import { IUser } from "../../src/interfaces/user.INTF";
 import { HospitalDepartment } from "../../src/enums/departments.ENUM";
 
 

@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../dbConnection";
-import { IBill } from "../../src/modules/bill/bill.INTF";
+import { IBill } from "../../src/interfaces/bill.INTF";
 import { Patient } from "./patient.schema";
 
 
@@ -56,11 +56,11 @@ Bill.init({
     timestamps: true
 })
 // relationships 
-Patient.hasMany(Bill,{
-    foreignKey:"patient_id"
+Patient.hasMany(Bill, {
+    foreignKey: "patient_id"
 })
-Bill.belongsTo(Patient,{
-    foreignKey:"patient_id"
+Bill.belongsTo(Patient, {
+    foreignKey: "patient_id"
 })
 
 

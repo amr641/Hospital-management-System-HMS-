@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import Room from "../../../config/schemas/room.schema";
 
 import { AppError } from "../../utils/appError";
-import { IRoom } from "./room.INTF";
-export type RoomType= IRoom|null
+import { IRoom } from "../../interfaces/room.INTF";
+export type RoomType = IRoom | null
 // add a new room
 const addRoom = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     let room: IRoom = await Room.create(req.body)

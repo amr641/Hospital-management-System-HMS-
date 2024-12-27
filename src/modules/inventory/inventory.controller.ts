@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Inventory from "../../../config/schemas/inventory.schema";
 import { AppError } from "../../utils/appError";
-import { IInventory } from "./inventory.INTF";
+import { IInventory } from "../../interfaces/inventory.INTF";
 
 let itemNotFound = new AppError("item not found", 404)
 

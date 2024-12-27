@@ -1,4 +1,4 @@
-import { Status } from "../../enums/appointment.ENUM";
+import { Status } from "../enums/appointment.ENUM";
 
 export interface IAppointment {
     [x: string]: any;

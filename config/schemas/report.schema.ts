@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../dbConnection";
-import { IReport } from "../../src/modules/report/report.INTF";
+import { IReport } from "../../src/interfaces/report.INTF";
 import { Patient } from "./patient.schema";
 import { Appointment } from "./appointment.schema";
 
@@ -33,24 +33,24 @@ Report.init({
         allowNull: false,
         validate: {
             len: [1, 45],
-            notEmpty: true, 
+            notEmpty: true,
         },
     },
     patient_id: {
         type: DataTypes.INTEGER,
-        allowNull: true, 
+        allowNull: true,
         references: { model: "patients", key: 'id' },
         onDelete: 'SET NULL',
     },
     appointment_id: {
         type: DataTypes.INTEGER,
-        allowNull: true, 
+        allowNull: true,
         references: { model: "appointments", key: 'id' },
         onDelete: 'SET NULL',
     },
     createdBy: {
         type: DataTypes.INTEGER,
-        allowNull: true, 
+        allowNull: true,
         references: { model: "users", key: 'id' },
         onDelete: 'SET NULL',
     },

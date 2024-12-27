@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IAppointment } from "./appointment.INTF";
+import { IAppointment } from "../../interfaces/appointment.INTF";
 import { Appointment } from "../../../config/schemas/appointment.schema";
 import { AppError } from "../../utils/appError";
 import { Roles } from "../../enums/Roles.ENUMS";

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IBill } from "./bill.INTF";
+import { IBill } from "../../interfaces/bill.INTF";
 import { Bill } from "../../../config/schemas/bill.schema";
 import { AppError } from "../../utils/appError";
 import { PatientType } from "../patient/patient.controller";
