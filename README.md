@@ -27,3 +27,10 @@ The **Hospital Management System (HMS)** is a comprehensive web application buil
 1. Clone the repository:
    ```bash
    git clone https://github.com/amr641/Hospital-management-System-HMS-
+
+
+## Postman documentaion 
+Check out this documentation walkthrough of my code to see how everything comes together!
+
+[Api Documentation](https://documenter.getpostman.com/view/36174729/2sAYBUDXXW)
+   
